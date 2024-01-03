@@ -39,6 +39,7 @@
 #include "LiveData.h"
 #include "CarInterface.h"
 #include "CarKiaEniro.h"
+#include "CarGeely.h"
 #include "CarHyundaiIoniq.h"
 #include "CarHyundaiIoniqPHEV.h"
 #include "CarHyundaiIoniq5.h"
@@ -91,6 +92,7 @@ void setup(void)
   // board->resetSettings();
 
   // Init selected car interface
+  liveData->settings.carType = CAR_GEELY_FY11;
   switch (liveData->settings.carType)
   {
   case CAR_KIA_ENIRO_2020_39:
@@ -138,6 +140,9 @@ void setup(void)
   case CAR_PEUGEOT_E208:
     car = new CarPeugeotE208();
     break;
+  case CAR_GEELY_FY11:
+    car = new CarGeely();
+    break;
   default:
     car = new CarKiaEniro();
   }
@@ -152,6 +157,7 @@ void setup(void)
 
   // End
   syslog->println("Device setup completed");
+  syslog->println("Car Model " + String(liveData->settings.carType));
   syslog->println("");
   syslog->println("▓█████ ██▒   █▓▓█████▄  ▄▄▄        ██████  ██░ ██ ");
   syslog->println("▓█   ▀▓██░   █▒▒██▀ ██▌▒████▄    ▒██    ▒ ▓██░ ██▒");

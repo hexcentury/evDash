@@ -862,16 +862,16 @@ void Board320_240::drawSceneMain()
 
   // Added later - kwh total in tires box
   // TODO: refactoring
-  spr.setTextDatum(TL_DATUM);
-  spr.setTextColor(TFT_GREEN);
-  sprintf(tmpStr1, ((liveData->params.cumulativeEnergyChargedKWh == -1) ? "CEC: n/a" : "C: %01.01f +%01.01fkWh"), liveData->params.cumulativeEnergyChargedKWh, liveData->params.cumulativeEnergyChargedKWh - liveData->params.cumulativeEnergyChargedKWhStart);
-  spr.drawString(tmpStr1, (1 * 80) + 4, (0 * 60) + 30, 2);
-  spr.setTextColor(TFT_YELLOW);
-  sprintf(tmpStr1, ((liveData->params.cumulativeEnergyDischargedKWh == -1) ? "CED: n/a" : "D: %01.01f -%01.01fkWh"), liveData->params.cumulativeEnergyDischargedKWh, liveData->params.cumulativeEnergyDischargedKWh - liveData->params.cumulativeEnergyDischargedKWhStart);
-  spr.drawString(tmpStr1, (1 * 80) + 4, (0 * 60) + 44, 2);
+  //spr.setTextDatum(TL_DATUM);
+  //spr.setTextColor(TFT_GREEN);
+  //sprintf(tmpStr1, ((liveData->params.cumulativeEnergyChargedKWh == -1) ? "CEC: n/a" : "C: %01.01f +%01.01fkWh"), liveData->params.cumulativeEnergyChargedKWh, liveData->params.cumulativeEnergyChargedKWh - liveData->params.cumulativeEnergyChargedKWhStart);
+  //spr.drawString(tmpStr1, (1 * 80) + 4, (0 * 60) + 30, 2);
+  //spr.setTextColor(TFT_YELLOW);
+  //sprintf(tmpStr1, ((liveData->params.cumulativeEnergyDischargedKWh == -1) ? "CED: n/a" : "D: %01.01f -%01.01fkWh"), liveData->params.cumulativeEnergyDischargedKWh, liveData->params.cumulativeEnergyDischargedKWh - liveData->params.cumulativeEnergyDischargedKWhStart);
+  //spr.drawString(tmpStr1, (1 * 80) + 4, (0 * 60) + 44, 2);
 
   // batPowerKwh100 on roads, else batPowerAmp
-  if (liveData->params.speedKmh > 20 ||
+  /* if (liveData->params.speedKmh > 20 ||
       (liveData->params.speedKmh == -1 && liveData->params.speedKmhGPS > 20 && liveData->params.gpsSat >= 4))
   {
     sprintf(tmpStr1, (liveData->params.batPowerKwh100 == -1 ? "n/a" : "%01.01f"), liveData->km2distance(liveData->params.batPowerKwh100));
@@ -882,55 +882,64 @@ void Board320_240::drawSceneMain()
     // batPowerAmp on chargers (under 10kmh)
     sprintf(tmpStr1, (liveData->params.batPowerKw == -1000) ? "---" : "%01.01f", liveData->params.batPowerKw);
     drawBigCell(1, 1, 2, 2, tmpStr1, "POWER KW", (liveData->params.batPowerKw >= 0 ? TFT_DARKGREEN2 : (liveData->params.batPowerKw <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
-  }
+  }*/
+
+  sprintf(tmpStr1,"1");
+  drawBigCell(1, 1, 1, 1, tmpStr1, "Oil temp", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
+  sprintf(tmpStr1,"2");
+  drawBigCell(1, 2, 1, 1, tmpStr1, "Fuel free", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
+  sprintf(tmpStr1,"3");
+  drawBigCell(2, 1, 1, 1, tmpStr1, "ATF temp", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
+  sprintf(tmpStr1,"4");
+  drawBigCell(2, 2, 1, 1, tmpStr1, "Fuel liter", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
 
   // socPerc
   sprintf(tmpStr1, (liveData->params.socPerc == -1 ? "n/a" : "%01.00f%%"), liveData->params.socPerc);
-  sprintf(tmpStr2, (liveData->params.sohPerc == -1) ? "SOC/SOH?" : (liveData->params.sohPerc == 100.0 ? "SOC/H%01.00f%%" : "SOC/H%01.01f%%"), liveData->params.sohPerc);
+  sprintf(tmpStr2, (liveData->params.sohPerc == -1) ? "ECU V" : (liveData->params.sohPerc == 100.0 ? "ECU V%01.00f%%" : "ECU V%01.01f%%"), liveData->params.sohPerc);
   drawBigCell(0, 0, 1, 1, ((liveData->params.socPerc == 255) ? "---" : tmpStr1), tmpStr2,
               (liveData->params.socPerc < 10 || (liveData->params.sohPerc != -1 && liveData->params.sohPerc < 100) ? TFT_RED : (liveData->params.socPerc > 80 ? TFT_DARKGREEN2 : TFT_DEFAULT_BK)), TFT_WHITE);
 
   // batPowerAmp
   sprintf(tmpStr1, (liveData->params.batPowerAmp == -1000) ? "n/a" : (abs(liveData->params.batPowerAmp) > 9.9 ? "%01.00f" : "%01.01f"), liveData->params.batPowerAmp);
-  drawBigCell(0, 1, 1, 1, tmpStr1, "CURRENT A", (liveData->params.batPowerAmp >= 0 ? TFT_DARKGREEN2 : TFT_DARKRED), TFT_WHITE);
+  drawBigCell(0, 1, 1, 1, tmpStr1, "Coolant", (liveData->params.batPowerAmp >= 0 ? TFT_DARKGREEN2 : TFT_DARKRED), TFT_WHITE);
 
   // batVoltage
   sprintf(tmpStr1, (liveData->params.batVoltage == -1) ? "n/a" : "%03.00f", liveData->params.batVoltage);
-  drawBigCell(0, 2, 1, 1, tmpStr1, "VOLTAGE", TFT_DEFAULT_BK, TFT_WHITE);
+  drawBigCell(0, 2, 1, 1, tmpStr1, "Fuel full", TFT_DEFAULT_BK, TFT_WHITE);
 
   // batCellMinV
   sprintf(tmpStr1, "%01.02f", liveData->params.batCellMaxV - liveData->params.batCellMinV);
-  sprintf(tmpStr2, (liveData->params.batCellMinV == -1) ? "CELLS" : "CELLS %01.02f", liveData->params.batCellMinV);
+  sprintf(tmpStr2, (liveData->params.batCellMinV == -1) ? "???" : "??? %01.02f", liveData->params.batCellMinV);
   drawBigCell(0, 3, 1, 1, (liveData->params.batCellMaxV - liveData->params.batCellMinV == 0.00 ? "OK" : tmpStr1), tmpStr2, TFT_DEFAULT_BK, TFT_WHITE);
 
   // batTempC
   sprintf(tmpStr1, (liveData->params.batMinC == -100) ? "n/a" : ((liveData->settings.temperatureUnit == 'c') ? "%01.00f" : "%01.01f"), liveData->celsius2temperature(liveData->params.batMinC));
-  sprintf(tmpStr2, (liveData->params.batMaxC == -100) ? "BAT.TEMP" : ((liveData->settings.temperatureUnit == 'c') ? "BATT. %01.00fC" : "BATT. %01.01fF"), liveData->celsius2temperature(liveData->params.batMaxC));
+  sprintf(tmpStr2, (liveData->params.batMaxC == -100) ? "???" : ((liveData->settings.temperatureUnit == 'c') ? "BATT. %01.00fC" : "BATT. %01.01fF"), liveData->celsius2temperature(liveData->params.batMaxC));
   drawBigCell(1, 3, 1, 1, tmpStr1, tmpStr2, TFT_TEMP, (liveData->params.batTempC >= 15) ? ((liveData->params.batTempC >= 25) ? TFT_GREEN : TFT_BLUE) : TFT_RED);
 
   // batHeaterC
   sprintf(tmpStr1, (liveData->params.batHeaterC == -100) ? "n/a" : ((liveData->settings.temperatureUnit == 'c') ? "%01.00f" : "%01.01f"), liveData->celsius2temperature(liveData->params.batHeaterC));
-  drawBigCell(2, 3, 1, 1, tmpStr1, "BAT.HEAT", TFT_TEMP, TFT_WHITE);
+  drawBigCell(2, 3, 1, 1, tmpStr1, "???", TFT_TEMP, TFT_WHITE);
 
   // Aux perc / temp
   if (liveData->settings.carType == CAR_BMW_I3_2014)
   { // TODO: use invalid auxPerc value as decision point here?
     sprintf(tmpStr1, "%01.00f", liveData->params.auxTemperature);
-    drawBigCell(3, 0, 1, 1, tmpStr1, "AUX TEMP.", (liveData->params.auxTemperature < 5 ? TFT_RED : TFT_DEFAULT_BK), TFT_WHITE);
+    drawBigCell(3, 0, 1, 1, tmpStr1, "???", (liveData->params.auxTemperature < 5 ? TFT_RED : TFT_DEFAULT_BK), TFT_WHITE);
   }
   else
   {
     sprintf(tmpStr1, (liveData->params.auxPerc == -1) ? "n/a" : "%01.00f%%", liveData->params.auxPerc);
-    drawBigCell(3, 0, 1, 1, tmpStr1, "AUX BAT.", (liveData->params.auxPerc < 60 ? TFT_RED : TFT_DEFAULT_BK), TFT_WHITE);
+    drawBigCell(3, 0, 1, 1, tmpStr1, "???", (liveData->params.auxPerc < 60 ? TFT_RED : TFT_DEFAULT_BK), TFT_WHITE);
   }
 
   // Aux amp
   sprintf(tmpStr1, (liveData->params.auxCurrentAmp == -1000) ? "n/a" : (abs(liveData->params.auxCurrentAmp) > 9.9 ? "%01.00f" : "%01.01f"), liveData->params.auxCurrentAmp);
-  drawBigCell(3, 1, 1, 1, tmpStr1, "AUX AMPS", (liveData->params.auxCurrentAmp >= 0 ? TFT_DARKGREEN2 : TFT_DARKRED), TFT_WHITE);
+  drawBigCell(3, 1, 1, 1, tmpStr1, "???", (liveData->params.auxCurrentAmp >= 0 ? TFT_DARKGREEN2 : TFT_DARKRED), TFT_WHITE);
 
   // auxVoltage
   sprintf(tmpStr1, (liveData->params.auxVoltage == -1) ? "n/a" : "%01.01f", liveData->params.auxVoltage);
-  drawBigCell(3, 2, 1, 1, tmpStr1, "AUX VOLTS", (liveData->params.auxVoltage < 12.1 ? TFT_RED : (liveData->params.auxVoltage < 12.6 ? TFT_ORANGE : TFT_DEFAULT_BK)), TFT_WHITE);
+  drawBigCell(3, 2, 1, 1, tmpStr1, "???", (liveData->params.auxVoltage < 12.1 ? TFT_RED : (liveData->params.auxVoltage < 12.6 ? TFT_ORANGE : TFT_DEFAULT_BK)), TFT_WHITE);
 
   // indoorTemperature
   sprintf(tmpStr1, (liveData->params.indoorTemperature == -100) ? "n/a" : "%01.01f", liveData->celsius2temperature(liveData->params.indoorTemperature));
@@ -1975,6 +1984,12 @@ String Board320_240::menuItemText(int16_t menuItemId, String title)
   case VEHICLE_TYPE_PEUGEOT_E208:
     prefix = (liveData->settings.carType == CAR_PEUGEOT_E208) ? ">" : "";
     break;
+  case VEHICLE_TYPE_GEELY_FY11:
+    prefix = (liveData->settings.carType == CAR_GEELY_FY11) ? ">" : "";
+    break;
+  /*case VEHICLE_TYPE_GEELY:
+    prefix = (liveData->settings.carType == CAR_GEELY_FY11) ? ">" : "";
+    break;*/
   //
   case MENU_ADAPTER_CAN_COMMU:
     prefix = (liveData->settings.commType == COMM_TYPE_CAN_COMMU) ? ">" : "";
@@ -2648,6 +2663,11 @@ void Board320_240::menuItemClick()
       break;
     case VEHICLE_TYPE_PEUGEOT_E208:
       liveData->settings.carType = CAR_PEUGEOT_E208;
+      showMenu();
+      return;
+      break;
+    case VEHICLE_TYPE_GEELY_FY11:
+      liveData->settings.carType = CAR_GEELY_FY11;
       showMenu();
       return;
       break;
@@ -4848,6 +4868,8 @@ String Board320_240::getCarModelAbrpStr()
     return "renault:zoe:r240:22:other";
   case CAR_BMW_I3_2014:
     return "bmw:i3:14:22:other";
+  case CAR_GEELY_FY11:
+    return "Geely:FY11:14:22:other";
   default:
     return "n/a";
   }
