@@ -891,7 +891,7 @@ void Board320_240::drawSceneMain()
   sprintf(tmpStr1,"3");
   drawBigCell(2, 1, 1, 1, tmpStr1, "ATF temp", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
   sprintf(tmpStr1,"4");
-  drawBigCell(2, 2, 1, 1, tmpStr1, "Fuel liter", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
+  drawBigCell(2, 2, 1, 1, tmpStr1, "Fuel full", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
 
   // socPerc
   sprintf(tmpStr1, (liveData->params.socPerc == -1 ? "n/a" : "%01.00f%%"), liveData->params.socPerc);
@@ -905,7 +905,7 @@ void Board320_240::drawSceneMain()
 
   // batVoltage
   sprintf(tmpStr1, (liveData->params.batVoltage == -1) ? "n/a" : "%03.00f", liveData->params.batVoltage);
-  drawBigCell(0, 2, 1, 1, tmpStr1, "Fuel full", TFT_DEFAULT_BK, TFT_WHITE);
+  drawBigCell(0, 2, 1, 1, tmpStr1, "Fuel liter", TFT_DEFAULT_BK, TFT_WHITE);
 
   // batCellMinV
   sprintf(tmpStr1, "%01.02f", liveData->params.batCellMaxV - liveData->params.batCellMinV);
@@ -933,9 +933,9 @@ void Board320_240::drawSceneMain()
     drawBigCell(3, 0, 1, 1, tmpStr1, "???", (liveData->params.auxPerc < 60 ? TFT_RED : TFT_DEFAULT_BK), TFT_WHITE);
   }
 
-  // Aux amp
+  // Catalyst temp
   sprintf(tmpStr1, (liveData->params.auxCurrentAmp == -1000) ? "n/a" : (abs(liveData->params.auxCurrentAmp) > 9.9 ? "%01.00f" : "%01.01f"), liveData->params.auxCurrentAmp);
-  drawBigCell(3, 1, 1, 1, tmpStr1, "???", (liveData->params.auxCurrentAmp >= 0 ? TFT_DARKGREEN2 : TFT_DARKRED), TFT_WHITE);
+  drawBigCell(3, 1, 1, 1, tmpStr1, "Catalyst", (liveData->params.auxCurrentAmp >= 0 ? TFT_DARKGREEN2 : TFT_DARKRED), TFT_WHITE);
 
   // auxVoltage
   sprintf(tmpStr1, (liveData->params.auxVoltage == -1) ? "n/a" : "%01.01f", liveData->params.auxVoltage);
