@@ -65,14 +65,14 @@ class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
       liveDataObj->scanningDeviceIndex++;
     }
 
-    //        if (advertisedDevice.getServiceDataUUID().toString() != "<NULL>") {
-    //          syslog->print("ServiceDataUUID: ");
-    //          syslog->println(advertisedDevice.getServiceDataUUID().toString().c_str());
-    //        if (advertisedDevice.getServiceUUID().toString() != "<NULL>") {
-    //          syslog->print("ServiceUUID: ");
-    //          syslog->println(advertisedDevice.getServiceUUID().toString().c_str());
-    //        }
-    //        }
+            if (advertisedDevice.getServiceDataUUID().toString() != "<NULL>") {
+              syslog->print("ServiceDataUUID: ");
+              syslog->println(advertisedDevice.getServiceDataUUID().toString().c_str());
+            if (advertisedDevice.getServiceUUID().toString() != "<NULL>") {
+              syslog->print("ServiceUUID: ");
+              syslog->println(advertisedDevice.getServiceUUID().toString().c_str());
+            }
+            }
 
     if (advertisedDevice.haveServiceUUID() && advertisedDevice.isAdvertisingService(BLEUUID(liveDataObj->settings.serviceUUID)) &&
         (strcmp(advertisedDevice.getAddress().toString().c_str(), liveDataObj->settings.obdMacAddress) == 0))

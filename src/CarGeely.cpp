@@ -49,6 +49,21 @@ void CarGeely::activateCommandQueue()
       "ATDP",
       "ATST16", // reduced timeout to 1, orig.16
 
+      // Standard OBD2 PIDs
+      "ATSH7DF",
+      "0105", // Coolant temp
+      "012F", // Fuel level %
+      "013C", // Catalist temp
+
+      // Vendor Engine ECU
+      "ATSH7E0",
+      "220156", // Engine oil temp
+      "220105", // Engine oil level mm
+
+      // Vendor AT ECU
+      "ATSH7E1",
+      "220A12", // AT oil temp
+/*
       // Loop from (KIA ENIRO)
 
       // IGPM
@@ -97,36 +112,25 @@ void CarGeely::activateCommandQueue()
       "220104", // cell voltages
       "220105", // soh, soc, ..
       "220106", // cooling water temp
-
+*/
   };
 
   // 39 or 64 kWh model?
   liveData->params.batModuleTempCount = 4;
   liveData->params.batteryTotalAvailableKWh = 64;
   liveData->params.cellCount = 98;
-  // =(I18*0,615)*(1+(I18*0,0008)) soc to kwh niro ev 2020
-  // Calculation based on nick.n17 dashboard data
-  if (liveData->settings.carType == CAR_KIA_ENIRO_2020_39 || liveData->settings.carType == CAR_HYUNDAI_KONA_2020_39)
-  {
-    liveData->params.batteryTotalAvailableKWh = 39.2;
-  }
 
   //  Empty and fill command queue
   liveData->commandQueue.clear();
-  // for (int i = 0; i < commandQueueCountKiaENiro; i++) {
   for (auto cmd : commandQueueKiaENiro)
   {
     liveData->commandQueue.push_back({0, cmd}); // stxChar not used, keep it 0
   }
 
-  //
   liveData->commandQueueLoopFrom = commandQueueLoopFromKiaENiro;
   liveData->commandQueueCount = commandQueueKiaENiro.size();
-  if (liveData->settings.carType == CAR_KIA_ESOUL_2020_64)
-  {
-    liveData->rxTimeoutMs = 500;            // timeout for receiving of CAN response
-    liveData->delayBetweenCommandsMs = 100; // delay between commands, set to 0 if no delay is needed
-  }
+  liveData->rxTimeoutMs = 500;            // timeout for receiving of CAN response
+  liveData->delayBetweenCommandsMs = 100; // delay between commands, set to 0 if no delay is needed
 }
 
 /**
@@ -139,6 +143,15 @@ void CarGeely::parseRowMerged()
   //  float tempFloat;
   String tmpStr;
 
+  if (liveData->currentAtshRequest.equals("ATSH7DF"))
+  {
+    if (liveData->commandRequest.equals("0105"))
+    {
+      liveData->params.coolantTemp1C = liveData->hexToDecFromResponse(4, 6, 1, false) - 40;//41 05 63 AA AA AA AA 
+    }
+  }
+
+/*
   // IGPM
   // RESPONDING WHEN CAR IS OFF
   if (liveData->currentAtshRequest.equals("ATSH770"))
@@ -432,6 +445,7 @@ void CarGeely::parseRowMerged()
       }
     }
   }
+  */
 }
 
 /**
