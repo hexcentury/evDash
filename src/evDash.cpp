@@ -61,6 +61,8 @@ LiveData *liveData;
 */
 void setup(void)
 {
+  M5.begin(true, false, false, true, kMBusModeOutput);
+
   // Init settings/params
   liveData = new LiveData();
   liveData->initParams();
