@@ -208,6 +208,7 @@ typedef struct
   float coolingWaterTempC;
   float coolantTemp1C;
   float coolantTemp2C;
+  float catalystTempC;
   float bmsUnknownTempA;
   float bmsUnknownTempB;
   float bmsUnknownTempC;
@@ -391,6 +392,7 @@ public:
   uint16_t commandQueueCount;
   uint16_t commandQueueLoopFrom;
   std::vector<Command_t> commandQueue;
+  uint32_t responseID;
   String responseRow;
   String responseRowMerged;
   String prevResponseRowMerged;

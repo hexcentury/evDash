@@ -126,6 +126,7 @@ void LiveData::initParams()
   params.batModuleTempC[2] = -100;
   params.batModuleTempC[3] = -100;
   params.coolingWaterTempC = -100;
+  params.catalystTempC = -100;
   params.coolantTemp1C = -100;
   params.coolantTemp2C = -100;
   params.bmsUnknownTempA = -100;

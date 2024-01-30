@@ -884,13 +884,19 @@ void Board320_240::drawSceneMain()
     drawBigCell(1, 1, 2, 2, tmpStr1, "POWER KW", (liveData->params.batPowerKw >= 0 ? TFT_DARKGREEN2 : (liveData->params.batPowerKw <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
   }*/
 
-  sprintf(tmpStr1,"1");
+  //https://www.programiz.com/cpp-programming/library-function/cstdio/sprintf
+  //%[flags][width][.precision][length]specifier
+
+  sprintf(tmpStr1,"n/a");
   drawBigCell(1, 1, 1, 1, tmpStr1, "Oil temp", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
-  sprintf(tmpStr1,"2");
+  sprintf(tmpStr1,"n/a");
   drawBigCell(1, 2, 1, 1, tmpStr1, "Fuel free", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
-  sprintf(tmpStr1,"3");
-  drawBigCell(2, 1, 1, 1, tmpStr1, "ATF temp", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
-  sprintf(tmpStr1,"4");
+  
+  //ATF DONE
+  sprintf(tmpStr1, (liveData->params.coolantTemp2C == -100) ? "n/a" : "%01.00f", liveData->celsius2temperature(liveData->params.coolantTemp2C));
+  drawBigCell(2, 1, 1, 1, tmpStr1, "ATF temp", (liveData->params.coolantTemp2C >= 20 ? TFT_DARKGREEN2 : TFT_RED), TFT_WHITE);
+
+  sprintf(tmpStr1,"n/a");
   drawBigCell(2, 2, 1, 1, tmpStr1, "Fuel full", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
 
   // socPerc
@@ -899,9 +905,9 @@ void Board320_240::drawSceneMain()
   drawBigCell(0, 0, 1, 1, ((liveData->params.socPerc == 255) ? "---" : tmpStr1), tmpStr2,
               (liveData->params.socPerc < 10 || (liveData->params.sohPerc != -1 && liveData->params.sohPerc < 100) ? TFT_RED : (liveData->params.socPerc > 80 ? TFT_DARKGREEN2 : TFT_DEFAULT_BK)), TFT_WHITE);
 
-  // batPowerAmp
-  sprintf(tmpStr1, (liveData->params.batPowerAmp == -1000) ? "n/a" : (abs(liveData->params.batPowerAmp) > 9.9 ? "%01.00f" : "%01.01f"), liveData->params.batPowerAmp);
-  drawBigCell(0, 1, 1, 1, tmpStr1, "Coolant", (liveData->params.batPowerAmp >= 0 ? TFT_DARKGREEN2 : TFT_DARKRED), TFT_WHITE);
+  // Coolant DONE
+  sprintf(tmpStr1, (liveData->params.coolantTemp1C == -100) ? "n/a" : "%01.00f", liveData->celsius2temperature(liveData->params.coolantTemp1C));
+  drawBigCell(0, 1, 1, 1, tmpStr1, "Coolant", (liveData->params.coolantTemp1C >= 50 ? TFT_DARKGREEN2 : TFT_RED), TFT_WHITE);
 
   // batVoltage
   sprintf(tmpStr1, (liveData->params.batVoltage == -1) ? "n/a" : "%03.00f", liveData->params.batVoltage);
@@ -933,9 +939,9 @@ void Board320_240::drawSceneMain()
     drawBigCell(3, 0, 1, 1, tmpStr1, "???", (liveData->params.auxPerc < 60 ? TFT_RED : TFT_DEFAULT_BK), TFT_WHITE);
   }
 
-  // Catalyst temp
-  sprintf(tmpStr1, (liveData->params.auxCurrentAmp == -1000) ? "n/a" : (abs(liveData->params.auxCurrentAmp) > 9.9 ? "%01.00f" : "%01.01f"), liveData->params.auxCurrentAmp);
-  drawBigCell(3, 1, 1, 1, tmpStr1, "Catalyst", (liveData->params.auxCurrentAmp >= 0 ? TFT_DARKGREEN2 : TFT_DARKRED), TFT_WHITE);
+  // Catalyst temp DONE
+  sprintf(tmpStr1, (liveData->params.catalystTempC == -100) ? "n/a" : "%01.00f", liveData->celsius2temperature(liveData->params.catalystTempC));
+  drawBigCell(3, 1, 1, 1, tmpStr1, "Catalyst", (liveData->params.catalystTempC < 670 ? TFT_DARKGREEN2 : TFT_RED), TFT_WHITE);
 
   // auxVoltage
   sprintf(tmpStr1, (liveData->params.auxVoltage == -1) ? "n/a" : "%01.01f", liveData->params.auxVoltage);

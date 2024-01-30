@@ -38,8 +38,10 @@
 #include "LogSerial.h"
 #include "LiveData.h"
 #include "CarInterface.h"
-#include "CarKiaEniro.h"
 #include "CarGeely.h"
+
+/*
+#include "CarKiaEniro.h"
 #include "CarHyundaiIoniq.h"
 #include "CarHyundaiIoniqPHEV.h"
 #include "CarHyundaiIoniq5.h"
@@ -47,6 +49,7 @@
 #include "CarBmwI3.h"
 #include "CarVWID3.h"
 #include "CarPeugeotE208.h"
+*/
 
 // Board, Car, Livedata (params, settings)
 BoardInterface *board;
@@ -93,7 +96,7 @@ void setup(void)
 
   // Init selected car interface
   liveData->settings.carType = CAR_GEELY_FY11;
-  switch (liveData->settings.carType)
+  /*switch (liveData->settings.carType)
   {
   case CAR_KIA_ENIRO_2020_39:
   case CAR_KIA_ENIRO_2020_64:
@@ -140,12 +143,12 @@ void setup(void)
   case CAR_PEUGEOT_E208:
     car = new CarPeugeotE208();
     break;
-  case CAR_GEELY_FY11:
+  case CAR_GEELY_FY11:*/
     car = new CarGeely();
-    break;
+  /*  break;
   default:
     car = new CarKiaEniro();
-  }
+  }*/
 
   car->setLiveData(liveData);
   car->activateCommandQueue();

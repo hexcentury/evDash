@@ -186,7 +186,7 @@ void CommObd2Can::executeCommand(String cmd)
 */
 void CommObd2Can::sendPID(const uint32_t pid, const String &cmd)
 {
-
+  
   uint8_t txBuf[8] = {0}; // init with zeroes
   String tmpStr;
 
@@ -257,7 +257,8 @@ void CommObd2Can::sendPID(const uint32_t pid, const String &cmd)
     sentCanData = false;
     lastDataSent = millis();
   }
-  syslog->infoNolf(DEBUG_COMM, pid);
+  sprintf(msgString, "0x%.2X", pid);
+  syslog->infoNolf(DEBUG_COMM, msgString);
   for (uint8_t i = 0; i < 8; i++)
   {
     sprintf(msgString, " 0x%.2X", txBuf[i]);
@@ -322,10 +323,11 @@ uint8_t CommObd2Can::receivePID()
       return 0xFF;
     }
 
+    liveData->responseID = rxId;
     if ((rxId & 0x80000000) == 0x80000000) // Determine if ID is standard (11 bits) or extended (29 bits)
       sprintf(msgString, "Extended ID: 0x%.8lX  DLC: %1d  Data:", (rxId & 0x1FFFFFFF), rxLen);
     else
-      sprintf(msgString, "Standard ID: 0x%.3lX       DLC: %1d  Data:", rxId, rxLen);
+      sprintf(msgString, "Standard ID: 0x%.3lX  DLC: %1d  Data:", rxId, rxLen);
 
     syslog->infoNolf(DEBUG_COMM, msgString);
 
@@ -353,12 +355,12 @@ uint8_t CommObd2Can::receivePID()
     }
 
     // Filter received messages, all 11 bit CAN - korean cars (exclude MEB is29bit)
-    if (lastPid <= 4095 && rxId != lastPid + 8)
+    /*if (lastPid <= 4095 && rxId != lastPid + 8)
     {
       syslog->info(DEBUG_COMM, " [Filtered packet]");
       connectStatus = "Packet filtered";
       return 0xff;
-    }
+    }*/
 
     syslog->info(DEBUG_COMM, "");
     connectStatus = "";

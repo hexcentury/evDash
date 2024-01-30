@@ -1,0 +1,15 @@
+; C:\Users\ivsmirn64\Documents\Private\M5Stack\evDash\Geely.xmt
+;   CAN messages saved by PCAN-View v5.1.0.887
+;
+; Columns descriptions:
+; ~~~~~~~~~~~~~~~~~~~~~
+; +Message ID
+; |            +Cycle time in ms (0=manual)
+; |            |  +Data length
+; |            |  |  +Frame type
+; |            |  |  |  +Message data
+; |            |  |  |  |
+7E8h           0  8  D 03h 41h 05h 63h AAh AAh AAh AAh ; temp engine
+7E8h           0  8  D 04h 41h 3Ch 12h 12h AAh AAh AAh ; catalist
+7E9h           0  8  D 03h 41h 05h 83h AAh AAh AAh AAh ; error
+7E9h           0  8  D 04h 62h 0Ah 12h 57h AAh AAh AAh ; ATF
