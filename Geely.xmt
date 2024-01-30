@@ -1,5 +1,5 @@
-; C:\Users\ivsmirn64\Documents\Private\M5Stack\evDash\Geely.xmt
-;   CAN messages saved by PCAN-View v5.1.0.887
+; C:\Users\anzhe\Documents\IVAN_DO_NOT_DEL\evDash\Geely.xmt
+;   CAN messages saved by PCAN-View v5.2.0.926
 ;
 ; Columns descriptions:
 ; ~~~~~~~~~~~~~~~~~~~~~
@@ -9,7 +9,9 @@
 ; |            |  |  +Frame type
 ; |            |  |  |  +Message data
 ; |            |  |  |  |
+300h           5  8  D 55h 55h 55h 55h 55h 55h 55h 55h ; 300
 7E8h           0  8  D 03h 41h 05h 63h AAh AAh AAh AAh ; temp engine
+7E8h           0  8  D 03h 41h 05h 73h AAh AAh AAh AAh ; temp engine
 7E8h           0  8  D 04h 41h 3Ch 12h 12h AAh AAh AAh ; catalist
-7E9h           0  8  D 03h 41h 05h 83h AAh AAh AAh AAh ; error
+7E9h         500  8  D 03h 41h 05h 83h AAh AAh AAh AAh ; error
 7E9h           0  8  D 04h 62h 0Ah 12h 57h AAh AAh AAh ; ATF

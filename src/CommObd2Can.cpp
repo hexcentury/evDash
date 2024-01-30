@@ -106,7 +106,8 @@ void CommObd2Can::mainLoop()
   // if delay between commands is defined, check if this delay is not expired
   if (liveData->delayBetweenCommandsMs != 0)
   {
-    if (bResponseProcessed && (unsigned long)(millis() - lastDataSent) > liveData->delayBetweenCommandsMs)
+    //if (bResponseProcessed && (unsigned long)(millis() - lastDataSent) > liveData->delayBetweenCommandsMs)
+    if ((unsigned long)(millis() - lastDataSent) > liveData->delayBetweenCommandsMs)
     {
       bResponseProcessed = false;
       liveData->canSendNextAtCommand = true;
@@ -116,7 +117,7 @@ void CommObd2Can::mainLoop()
 
   // Read data
   const uint8_t firstByte = receivePID();
-  if (firstByte != 0xFF && (firstByte & 0xf0) == 0x10)
+  /*if (firstByte != 0xFF && (firstByte & 0xf0) == 0x10)
   { // First frame, request another
     sendFlowControlFrame();
     delay(10);
@@ -141,7 +142,7 @@ void CommObd2Can::mainLoop()
       processMergedResponse();
       return;
     }
-  }
+  }*/
   if (lastDataSent != 0 && (unsigned long)(millis() - lastDataSent) > liveData->rxTimeoutMs)
   {
     syslog->info(DEBUG_COMM, "CAN execution timeout. Continue with next command.");
@@ -312,14 +313,18 @@ uint8_t CommObd2Can::receivePID()
 {
   if (!digitalRead(pinCanInt) && sentCanData == true) // If CAN0_INT pin is low, read receive buffer
   {
-    lastDataSent = millis();
-    syslog->infoNolf(DEBUG_COMM, " CAN READ ");
+    //lastDataSent = millis();
+    //syslog->info(DEBUG_COMM, " CAN READ ");
     CAN->readMsgBuf(&rxId, &rxLen, rxBuf); // Read data: len = data length, buf = data byte(s)
 
     // Empty response
     if (rxId == 0x00)
     {
       syslog->info(DEBUG_COMM, " [EMPTY RESPONSE]");
+      return 0xFF;
+    }
+    else if (rxId < 0x700)
+    {
       return 0xFF;
     }
 
