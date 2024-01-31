@@ -51,6 +51,20 @@ void CommObd2Can::connectDevice()
     }
   }
 
+  if (liveData->settings.carType == CAR_GEELY_FY11)
+  {
+    // initialise mask and filter to allow only receipt of 0x7xx CAN IDs
+    CAN->init_Mask(0, 0, 0x07FF0000); // Init first mask...
+    CAN->init_Filt(0, 0, 0x07E80000); // Init filters
+    CAN->init_Filt(1, 0, 0x07E90000); // Init filters
+
+    CAN->init_Mask(1, 0, 0x07FF0000); // Init second mask...
+    CAN->init_Filt(2, 0, 0x07E80000); // Init filters
+    CAN->init_Filt(3, 0, 0x07E90000); // Init filters
+    CAN->init_Filt(4, 0, 0x07E80000); // Init filters
+    CAN->init_Filt(5, 0, 0x07E90000); // Init filters
+  }
+
   if (MCP2515_OK != CAN->setMode(MCP_NORMAL))
   { // Set operation mode to normal so the MCP2515 sends acks to received data.
     syslog->println("Error: CAN->setMode(MCP_NORMAL) failed");
@@ -158,8 +172,8 @@ void CommObd2Can::mainLoop()
 */
 void CommObd2Can::executeCommand(String cmd)
 {
-  syslog->infoNolf(DEBUG_COMM, "executeCommand ");
-  syslog->info(DEBUG_COMM, cmd);
+  //syslog->infoNolf(DEBUG_COMM, "executeCommand ");
+  //syslog->info(DEBUG_COMM, cmd);
 
   liveData->responseRowMerged = "";
   liveData->vResponseRowMerged.clear();
@@ -246,7 +260,7 @@ void CommObd2Can::sendPID(const uint32_t pid, const String &cmd)
   const uint8_t sndStat = CAN->sendMsgBuf(pid, is29bit, 8, txBuf); // 11 bit or 29 bit
   if (sndStat == CAN_OK)
   {
-    syslog->infoNolf(DEBUG_COMM, "SENT ");
+    //syslog->infoNolf(DEBUG_COMM, "SENT ");
     sentCanData = true;
     lastDataSent = millis();
     connectAttempts = 3;
@@ -258,14 +272,14 @@ void CommObd2Can::sendPID(const uint32_t pid, const String &cmd)
     sentCanData = false;
     lastDataSent = millis();
   }
-  sprintf(msgString, "0x%.2X", pid);
+  /*sprintf(msgString, "0x%.2X", pid);
   syslog->infoNolf(DEBUG_COMM, msgString);
   for (uint8_t i = 0; i < 8; i++)
   {
     sprintf(msgString, " 0x%.2X", txBuf[i]);
     syslog->infoNolf(DEBUG_COMM, msgString);
   }
-  syslog->info(DEBUG_COMM, "");
+  syslog->info(DEBUG_COMM, "");*/
 }
 
 /**
@@ -311,7 +325,8 @@ void CommObd2Can::sendFlowControlFrame()
 */
 uint8_t CommObd2Can::receivePID()
 {
-  if (!digitalRead(pinCanInt) && sentCanData == true) // If CAN0_INT pin is low, read receive buffer
+  //if (!digitalRead(pinCanInt) && sentCanData == true) // If CAN0_INT pin is low, read receive buffer TODO restore
+  if (!digitalRead(pinCanInt))
   {
     //lastDataSent = millis();
     //syslog->info(DEBUG_COMM, " CAN READ ");
@@ -631,16 +646,16 @@ bool CommObd2Can::processFrame()
 */
 void CommObd2Can::processMergedResponse()
 {
-  syslog->infoNolf(DEBUG_COMM, "merged:");
-  syslog->info(DEBUG_COMM, liveData->responseRowMerged);
+  //syslog->infoNolf(DEBUG_COMM, "merged:");
+  //syslog->info(DEBUG_COMM, liveData->responseRowMerged);
 
   // Wait for real response (MEB GPS sometimes return 7F2278 and then real data)
-  if (liveData->responseRowMerged == "7F2278")
+  /*if (liveData->responseRowMerged == "7F2278")
   {
     liveData->responseRowMerged = "";
     liveData->vResponseRowMerged.clear();
     return;
-  }
+  }*/
 
   parseRowMerged();
 

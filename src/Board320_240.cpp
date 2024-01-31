@@ -3667,7 +3667,7 @@ void Board320_240::mainLoop()
   }
 
   // SIM800L, WiFI remote upload, ABRP remote upload, MQTT
-  netLoop();
+  //netLoop(); TODO restore
 
   // SD card recording
   if (liveData->params.sdcardInit && liveData->params.sdcardRecording && liveData->params.sdcardCanNotify &&

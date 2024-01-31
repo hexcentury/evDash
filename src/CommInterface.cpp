@@ -150,8 +150,8 @@ bool CommInterface::doNextQueueCommand()
   } while (!commandAllowed);
 
   // Execute command
-  syslog->infoNolf(DEBUG_COMM, ">>> ");
-  syslog->info(DEBUG_COMM, liveData->commandRequest);
+  //syslog->infoNolf(DEBUG_COMM, ">>> ");
+  //syslog->info(DEBUG_COMM, liveData->commandRequest);
   liveData->responseRowMerged = "";
   liveData->vResponseRowMerged.clear();
   executeCommand(liveData->commandRequest);
