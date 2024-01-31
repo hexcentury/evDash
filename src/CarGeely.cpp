@@ -54,6 +54,7 @@ void CarGeely::activateCommandQueue()
       "0105", // Coolant temp
       "012F", // Fuel level %
       "013C", // Catalist temp
+      "0142", // Control module voltage
 
       // Vendor Engine ECU
       "ATSH7E0",
@@ -100,12 +101,42 @@ void CarGeely::parseRowMerged()
       //41 05 63 AA AA AA AA
       liveData->params.coolantTemp1C = liveData->hexToDecFromResponse(4, 6, 1, false) - 40; 
     }
+    else if (liveData->responseRowMerged.startsWith("412F"))
+    {
+      //41 2F B2 AA AA AA AA
+      liveData->params.fuelLevelTankFull = 55;
+      auto par1 = liveData->hexToDecFromResponse(4, 6, 1, false);
+      liveData->params.fuelLevelPercent = par1 / 255;
+      liveData->params.fuelLevelIn = liveData->params.fuelLevelPercent * liveData->params.fuelLevelTankFull; 
+      liveData->params.fuelLevelOut = liveData->params.fuelLevelTankFull - liveData->params.fuelLevelIn; 
+    }
     else if (liveData->responseRowMerged.startsWith("413C"))
     {
       //41 3C 12 12 AA AA AA
       auto par1 = liveData->hexToDecFromResponse(4, 6, 1, false);
       auto par2 = liveData->hexToDecFromResponse(6, 8, 1, false);
       liveData->params.catalystTempC = (256 * par1 + par2) / 10 - 40;
+    }
+    else if (liveData->responseRowMerged.startsWith("4142"))
+    {
+      //41 42 12 12 AA AA AA
+      auto par1 = liveData->hexToDecFromResponse(4, 6, 1, false);
+      auto par2 = liveData->hexToDecFromResponse(6, 8, 1, false);
+      liveData->params.ecuVoltage = (256 * par1 + par2) / 1000;
+    }
+    else if (liveData->responseRowMerged.startsWith("620105"))
+    {
+      //62 01 05 1F 71 AA AA
+      auto par1 = liveData->hexToDecFromResponse(6, 8, 1, false);
+      auto par2 = liveData->hexToDecFromResponse(8, 10, 1, false);
+      liveData->params.engineOilLevel = 1.95 * par1 + 0.0075 * par2 + 0.12;
+    }
+    else if (liveData->responseRowMerged.startsWith("620156"))
+    {
+      //62 01 56 39 C8 AA AA
+      auto par1 = liveData->hexToDecFromResponse(6, 8, 1, false);
+      auto par2 = liveData->hexToDecFromResponse(8, 10, 1, false);
+      liveData->params.engineOilTempC = 6.112 * par1 + 0.0234 * par2 - 279.416;
     }
   }
   else if (liveData->responseID == 0x7E9)

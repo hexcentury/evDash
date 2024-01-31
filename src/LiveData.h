@@ -205,10 +205,17 @@ typedef struct
   float batMaxC;
   uint16_t batModuleTempCount;
   float batModuleTempC[25];
+  float ecuVoltage;
   float coolingWaterTempC;
   float coolantTemp1C;
   float coolantTemp2C;
   float catalystTempC;
+  float engineOilTempC;
+  float engineOilLevel;
+  float fuelLevelTankFull;
+  float fuelLevelPercent;
+  float fuelLevelIn;
+  float fuelLevelOut;
   float bmsUnknownTempA;
   float bmsUnknownTempB;
   float bmsUnknownTempC;

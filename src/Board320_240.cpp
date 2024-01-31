@@ -887,70 +887,58 @@ void Board320_240::drawSceneMain()
   //https://www.programiz.com/cpp-programming/library-function/cstdio/sprintf
   //%[flags][width][.precision][length]specifier
 
-  sprintf(tmpStr1,"n/a");
-  drawBigCell(1, 1, 1, 1, tmpStr1, "Oil temp", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
-  sprintf(tmpStr1,"n/a");
-  drawBigCell(1, 2, 1, 1, tmpStr1, "Fuel free", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
-  
-  //ATF DONE
-  sprintf(tmpStr1, (liveData->params.coolantTemp2C == -100) ? "n/a" : "%01.00f", liveData->celsius2temperature(liveData->params.coolantTemp2C));
-  drawBigCell(2, 1, 1, 1, tmpStr1, "ATF temp", (liveData->params.coolantTemp2C >= 20 ? TFT_DARKGREEN2 : TFT_RED), TFT_WHITE);
-
-  sprintf(tmpStr1,"n/a");
-  drawBigCell(2, 2, 1, 1, tmpStr1, "Fuel full", (1 >= 0 ? TFT_DARKGREEN2 : (2 <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
-
-  // socPerc
-  sprintf(tmpStr1, (liveData->params.socPerc == -1 ? "n/a" : "%01.00f%%"), liveData->params.socPerc);
-  sprintf(tmpStr2, (liveData->params.sohPerc == -1) ? "ECU V" : (liveData->params.sohPerc == 100.0 ? "ECU V%01.00f%%" : "ECU V%01.01f%%"), liveData->params.sohPerc);
-  drawBigCell(0, 0, 1, 1, ((liveData->params.socPerc == 255) ? "---" : tmpStr1), tmpStr2,
-              (liveData->params.socPerc < 10 || (liveData->params.sohPerc != -1 && liveData->params.sohPerc < 100) ? TFT_RED : (liveData->params.socPerc > 80 ? TFT_DARKGREEN2 : TFT_DEFAULT_BK)), TFT_WHITE);
+  // Column 1
+  // ECU V
+  sprintf(tmpStr1, (liveData->params.ecuVoltage == -100 ? "--" : "%01.01f"), liveData->params.ecuVoltage);
+  drawBigCell(0, 0, 1, 1, tmpStr1, "ECU V", (liveData->params.ecuVoltage < 13 ? TFT_RED : (liveData->params.ecuVoltage > 15 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
 
   // Coolant DONE
-  sprintf(tmpStr1, (liveData->params.coolantTemp1C == -100) ? "n/a" : "%01.00f", liveData->celsius2temperature(liveData->params.coolantTemp1C));
-  drawBigCell(0, 1, 1, 1, tmpStr1, "Coolant", (liveData->params.coolantTemp1C >= 50 ? TFT_DARKGREEN2 : TFT_RED), TFT_WHITE);
+  sprintf(tmpStr1, (liveData->params.coolantTemp1C == -100) ? "--" : "%01.00f", liveData->celsius2temperature(liveData->params.coolantTemp1C));
+  drawBigCell(0, 1, 1, 1, tmpStr1, "Coolant", (liveData->params.coolantTemp1C < 50 ? TFT_MAROON : (liveData->params.coolantTemp1C > 110 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);  
 
-  // batVoltage
-  sprintf(tmpStr1, (liveData->params.batVoltage == -1) ? "n/a" : "%03.00f", liveData->params.batVoltage);
-  drawBigCell(0, 2, 1, 1, tmpStr1, "Fuel liter", TFT_DEFAULT_BK, TFT_WHITE);
+  // Fuel in DONE
+  sprintf(tmpStr1, (liveData->params.fuelLevelIn == -100) ? "--" : "%01.01f", liveData->params.fuelLevelIn);
+  drawBigCell(0, 2, 1, 1, tmpStr1, "Fuel in", (liveData->params.fuelLevelIn > 15 ? TFT_DARKGREEN2 : (liveData->params.fuelLevelIn > 10 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
 
-  // batCellMinV
-  sprintf(tmpStr1, "%01.02f", liveData->params.batCellMaxV - liveData->params.batCellMinV);
-  sprintf(tmpStr2, (liveData->params.batCellMinV == -1) ? "???" : "??? %01.02f", liveData->params.batCellMinV);
-  drawBigCell(0, 3, 1, 1, (liveData->params.batCellMaxV - liveData->params.batCellMinV == 0.00 ? "OK" : tmpStr1), tmpStr2, TFT_DEFAULT_BK, TFT_WHITE);
+  //
+  drawBigCell(0, 3, 1, 1, "--", "???", TFT_DEFAULT_BK, TFT_WHITE);
 
-  // batTempC
-  sprintf(tmpStr1, (liveData->params.batMinC == -100) ? "n/a" : ((liveData->settings.temperatureUnit == 'c') ? "%01.00f" : "%01.01f"), liveData->celsius2temperature(liveData->params.batMinC));
-  sprintf(tmpStr2, (liveData->params.batMaxC == -100) ? "???" : ((liveData->settings.temperatureUnit == 'c') ? "BATT. %01.00fC" : "BATT. %01.01fF"), liveData->celsius2temperature(liveData->params.batMaxC));
-  drawBigCell(1, 3, 1, 1, tmpStr1, tmpStr2, TFT_TEMP, (liveData->params.batTempC >= 15) ? ((liveData->params.batTempC >= 25) ? TFT_GREEN : TFT_BLUE) : TFT_RED);
+  // Column 2
+  //Oil temp DONE
+  sprintf(tmpStr1, (liveData->params.engineOilTempC == -100) ? "--" : "%01.01f", liveData->celsius2temperature(liveData->params.engineOilTempC));
+  drawBigCell(1, 1, 1, 1, tmpStr1, "Oil temp", (liveData->params.engineOilTempC < 20 ? TFT_MAROON : (liveData->params.engineOilTempC > 110 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
 
-  // batHeaterC
-  sprintf(tmpStr1, (liveData->params.batHeaterC == -100) ? "n/a" : ((liveData->settings.temperatureUnit == 'c') ? "%01.00f" : "%01.01f"), liveData->celsius2temperature(liveData->params.batHeaterC));
-  drawBigCell(2, 3, 1, 1, tmpStr1, "???", TFT_TEMP, TFT_WHITE);
+  sprintf(tmpStr1, (liveData->params.fuelLevelOut == -100) ? "--" : "%01.01f", liveData->params.fuelLevelOut);
+  drawBigCell(1, 2, 1, 1, tmpStr1, "Fuel out", TFT_DARKGREEN2, TFT_WHITE);
+  
+  //
+  drawBigCell(1, 3, 1, 1, "--", "???", TFT_DEFAULT_BK, TFT_WHITE);
 
-  // Aux perc / temp
-  if (liveData->settings.carType == CAR_BMW_I3_2014)
-  { // TODO: use invalid auxPerc value as decision point here?
-    sprintf(tmpStr1, "%01.00f", liveData->params.auxTemperature);
-    drawBigCell(3, 0, 1, 1, tmpStr1, "???", (liveData->params.auxTemperature < 5 ? TFT_RED : TFT_DEFAULT_BK), TFT_WHITE);
-  }
-  else
-  {
-    sprintf(tmpStr1, (liveData->params.auxPerc == -1) ? "n/a" : "%01.00f%%", liveData->params.auxPerc);
-    drawBigCell(3, 0, 1, 1, tmpStr1, "???", (liveData->params.auxPerc < 60 ? TFT_RED : TFT_DEFAULT_BK), TFT_WHITE);
-  }
+  // Column 3
+  //ATF DONE
+  sprintf(tmpStr1, (liveData->params.coolantTemp2C == -100) ? "--" : "%01.00f", liveData->celsius2temperature(liveData->params.coolantTemp2C));
+  drawBigCell(2, 1, 1, 1, tmpStr1, "ATF temp", (liveData->params.coolantTemp2C < 20 ? TFT_MAROON : (liveData->params.coolantTemp2C > 80 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
 
+  sprintf(tmpStr1, (liveData->params.fuelLevelPercent == -100) ? "--" : "%01.00f%%", liveData->params.fuelLevelPercent * 100);
+  drawBigCell(2, 2, 1, 1, tmpStr1, "Fuel %", TFT_DARKGREEN2, TFT_WHITE);
+
+  //
+  drawBigCell(2, 3, 1, 1, "--", "???", TFT_DEFAULT_BK, TFT_WHITE);
+
+  // Column 4
+  //
+  drawBigCell(3, 0, 1, 1, "--", "???", TFT_DEFAULT_BK, TFT_WHITE);
+  
   // Catalyst temp DONE
-  sprintf(tmpStr1, (liveData->params.catalystTempC == -100) ? "n/a" : "%01.00f", liveData->celsius2temperature(liveData->params.catalystTempC));
-  drawBigCell(3, 1, 1, 1, tmpStr1, "Catalyst", (liveData->params.catalystTempC < 670 ? TFT_DARKGREEN2 : TFT_RED), TFT_WHITE);
+  sprintf(tmpStr1, (liveData->params.catalystTempC == -100) ? "--" : "%01.00f", liveData->celsius2temperature(liveData->params.catalystTempC));
+  drawBigCell(3, 1, 1, 1, tmpStr1, "Catalyst", (liveData->params.catalystTempC < 670 ? TFT_DARKGREEN2 : (liveData->params.catalystTempC < 800 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
 
-  // auxVoltage
-  sprintf(tmpStr1, (liveData->params.auxVoltage == -1) ? "n/a" : "%01.01f", liveData->params.auxVoltage);
-  drawBigCell(3, 2, 1, 1, tmpStr1, "???", (liveData->params.auxVoltage < 12.1 ? TFT_RED : (liveData->params.auxVoltage < 12.6 ? TFT_ORANGE : TFT_DEFAULT_BK)), TFT_WHITE);
+  // Oil level DONE
+  sprintf(tmpStr1, (liveData->params.engineOilLevel == -100) ? "--" : "%01.01f", liveData->params.engineOilLevel);
+  drawBigCell(3, 2, 1, 1, tmpStr1, "Oil level", (liveData->params.engineOilLevel > 60 ? TFT_DARKGREEN2 : (liveData->params.engineOilLevel > 56 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
 
-  // indoorTemperature
-  sprintf(tmpStr1, (liveData->params.indoorTemperature == -100) ? "n/a" : "%01.01f", liveData->celsius2temperature(liveData->params.indoorTemperature));
-  sprintf(tmpStr2, (liveData->params.outdoorTemperature == -100) ? "IN/OUT" : "IN/OUT%01.01f", liveData->celsius2temperature(liveData->params.outdoorTemperature));
-  drawBigCell(3, 3, 1, 1, tmpStr1, tmpStr2, TFT_TEMP, TFT_WHITE);
+  //
+  drawBigCell(3, 3, 1, 1, "--", "???", TFT_DEFAULT_BK, TFT_WHITE);
 }
 
 /**
