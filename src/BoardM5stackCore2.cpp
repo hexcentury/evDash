@@ -57,8 +57,9 @@ void BoardM5stackCore2::initBoard()
   Write1Byte(0x82, 0xff);
 
   M5.Axp.SetESPVoltage(3350);
-  //TODO check AXP192.cpp
-  //M5.Axp.SetBusPowerMode(1); // 1 - Power from bus; 0 - Power from USB
+  // CAN will not work if you do not set power correctly!!!
+  // TODO check power: 1 - Power from CAN bus; 0 - Power from USB
+  M5.Axp.SetBusPowerMode(0); // 1 - Power from bus; 0 - Power from USB
   M5.Axp.SetLDOVoltage(2, 3300);
   M5.Axp.SetLDOVoltage(3, 2000);
   M5.Axp.SetLDOEnable(2, true);
