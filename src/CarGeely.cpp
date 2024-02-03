@@ -87,7 +87,7 @@ void CarGeely::activateCommandQueue()
   liveData->rxTimeoutMs = 500;            // timeout for receiving of CAN response
   liveData->delayBetweenCommandsMs = 100; // delay between commands, set to 0 if no delay is needed
 
-  M5.Spk.DingDong();  // Play the DingDong sound.
+  //M5.Spk.DingDong();  // Play the DingDong sound.
 }
 
 /**
@@ -157,7 +157,7 @@ void CarGeely::parseRowMerged()
 
   if (_bPlaySound)
   {
-    M5.Spk.DingDong();  // Play the DingDong sound.
+    //M5.Spk.DingDong();  // Play the DingDong sound.
   }
 }
 

@@ -59,7 +59,8 @@ void BoardM5stackCore2::initBoard()
   M5.Axp.SetESPVoltage(3350);
   // CAN will not work if you do not set power correctly!!!
   // TODO check power: 1 - Power from CAN bus; 0 - Power from USB
-  M5.Axp.SetBusPowerMode(0); // 1 - Power from bus; 0 - Power from USB
+  //M5.Axp.SetBusPowerMode(0); // 0 - Power from USB
+  M5.Axp.SetBusPowerMode(1); // 1 - Power from bus
   M5.Axp.SetLDOVoltage(2, 3300);
   M5.Axp.SetLDOVoltage(3, 2000);
   M5.Axp.SetLDOEnable(2, true);
@@ -73,7 +74,7 @@ void BoardM5stackCore2::initBoard()
   // delay(100);
 
   // TONE
-  M5.Spk.begin();
+  //M5.Spk.begin();
 
   Board320_240::initBoard();
 }
