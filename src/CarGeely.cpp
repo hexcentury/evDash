@@ -18,6 +18,10 @@
 #include "CommInterface.h"
 #include <vector>
 
+#ifdef BOARD_M5STACK_CORE2
+#include <M5Core2.h>
+#endif // BOARD_M5STACK_CORE2
+
 #define commandQueueLoopFromKiaENiro 8
 
 /**
@@ -82,6 +86,8 @@ void CarGeely::activateCommandQueue()
   liveData->commandQueueCount = commandQueueKiaENiro.size();
   liveData->rxTimeoutMs = 500;            // timeout for receiving of CAN response
   liveData->delayBetweenCommandsMs = 100; // delay between commands, set to 0 if no delay is needed
+
+  M5.Spk.DingDong();  // Play the DingDong sound.
 }
 
 /**
@@ -93,6 +99,7 @@ void CarGeely::parseRowMerged()
   uint8_t tempByte;
   //  float tempFloat;
   String tmpStr;
+  bool _bPlaySound = false;
   
   if (liveData->responseID == 0x7E8)
   {
@@ -146,6 +153,11 @@ void CarGeely::parseRowMerged()
       //62 0A 12 57 AA AA AA
       liveData->params.coolantTemp2C = liveData->hexToDecFromResponse(6, 8, 1, false) - 40;
     }
+  }
+
+  if (_bPlaySound)
+  {
+    M5.Spk.DingDong();  // Play the DingDong sound.
   }
 }
 

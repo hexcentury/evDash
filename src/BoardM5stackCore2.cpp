@@ -72,6 +72,9 @@ void BoardM5stackCore2::initBoard()
   // M5.IMU.Init(); // Gyro
   // delay(100);
 
+  // TONE
+  M5.Spk.begin();
+
   Board320_240::initBoard();
 }
 
