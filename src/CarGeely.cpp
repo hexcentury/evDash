@@ -56,6 +56,8 @@ void CarGeely::activateCommandQueue()
       // Standard OBD2 PIDs
       "ATSH7DF",
       "0105", // Coolant temp
+      "010C", // Engine RPMs
+      "010D", // Vehicle speed
       "012F", // Fuel level %
       "013C", // Catalist temp
       "0142", // Control module voltage
@@ -68,6 +70,10 @@ void CarGeely::activateCommandQueue()
       // Vendor AT ECU
       "ATSH7E1",
       "220A12", // AT oil temp
+
+      //TPMS
+      // https://www.drive2.ru/l/620211970313861158/
+      // TPMS 7A0 22C00B
   };
 
   // 39 or 64 kWh model?
@@ -107,6 +113,19 @@ void CarGeely::parseRowMerged()
     {
       //41 05 63 AA AA AA AA
       liveData->params.coolantTemp1C = liveData->hexToDecFromResponse(4, 6, 1, false) - 40; 
+    }
+    else if (liveData->responseRowMerged.startsWith("410C"))
+    {
+      //41 0C 12 12 AA AA AA
+      auto par1 = liveData->hexToDecFromResponse(4, 6, 1, false);
+      auto par2 = liveData->hexToDecFromResponse(6, 8, 1, false);
+      liveData->params.motorRpm = (256 * par1 + par2) / 4 / 1000;
+    }
+    else if (liveData->responseRowMerged.startsWith("410D"))
+    {
+      //41 0D 12 AA AA AA AA
+      auto par1 = liveData->hexToDecFromResponse(4, 6, 1, false);
+      liveData->params.speedKmh = par1;
     }
     else if (liveData->responseRowMerged.startsWith("412F"))
     {

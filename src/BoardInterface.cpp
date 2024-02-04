@@ -107,7 +107,7 @@ void BoardInterface::loadSettings()
   liveData->settings.distanceUnit = 'k';
   liveData->settings.temperatureUnit = 'c';
   liveData->settings.pressureUnit = 'b';
-  liveData->settings.defaultScreen = 1;
+  liveData->settings.defaultScreen = 2;
   liveData->settings.lcdBrightness = 0;
   liveData->settings.predrawnChargingGraphs = 1;
   // liveData->settings.commType = COMM_TYPE_OBD2_BLE4; // BLE4

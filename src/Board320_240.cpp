@@ -892,30 +892,33 @@ void Board320_240::drawSceneMain()
   sprintf(tmpStr1, (liveData->params.ecuVoltage == -100 ? "--" : "%01.01f"), liveData->params.ecuVoltage);
   drawBigCell(0, 0, 1, 1, tmpStr1, "ECU V", (liveData->params.ecuVoltage < 13 ? TFT_RED : (liveData->params.ecuVoltage > 15 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
 
-  // Coolant DONE
+  // Coolant
   sprintf(tmpStr1, (liveData->params.coolantTemp1C == -100) ? "--" : "%01.00f", liveData->celsius2temperature(liveData->params.coolantTemp1C));
   drawBigCell(0, 1, 1, 1, tmpStr1, "Coolant", (liveData->params.coolantTemp1C < 50 ? TFT_MAROON : (liveData->params.coolantTemp1C > 110 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);  
 
-  // Fuel in DONE
+  // Fuel in
   sprintf(tmpStr1, (liveData->params.fuelLevelIn == -100) ? "--" : "%01.01f", liveData->params.fuelLevelIn);
   drawBigCell(0, 2, 1, 1, tmpStr1, "Fuel in", (liveData->params.fuelLevelIn > 15 ? TFT_DARKGREEN2 : (liveData->params.fuelLevelIn > 10 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
 
-  //
-  drawBigCell(0, 3, 1, 1, "--", "???", TFT_DEFAULT_BK, TFT_WHITE);
+  // RPM
+  sprintf(tmpStr1, (liveData->params.motorRpm == -1) ? "--" : "%01.01f", liveData->params.motorRpm);
+  drawBigCell(0, 3, 1, 1, tmpStr1, "RPM", (liveData->params.motorRpm < 4 ? TFT_DARKGREEN2 : (liveData->params.motorRpm < 5 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
 
   // Column 2
-  //Oil temp DONE
+  //Oil temp
   sprintf(tmpStr1, (liveData->params.engineOilTempC == -100) ? "--" : "%01.01f", liveData->celsius2temperature(liveData->params.engineOilTempC));
   drawBigCell(1, 1, 1, 1, tmpStr1, "Oil temp", (liveData->params.engineOilTempC < 20 ? TFT_MAROON : (liveData->params.engineOilTempC > 110 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
 
+  // Fuel out
   sprintf(tmpStr1, (liveData->params.fuelLevelOut == -100) ? "--" : "%01.01f", liveData->params.fuelLevelOut);
   drawBigCell(1, 2, 1, 1, tmpStr1, "Fuel out", TFT_DARKGREEN2, TFT_WHITE);
   
-  //
-  drawBigCell(1, 3, 1, 1, "--", "???", TFT_DEFAULT_BK, TFT_WHITE);
+  // Speed
+  sprintf(tmpStr1, (liveData->params.speedKmh == -1) ? "--" : "%01.00f", liveData->params.speedKmh);
+  drawBigCell(1, 3, 1, 1, tmpStr1, "Speed", (liveData->params.speedKmh < 120 ? TFT_DARKGREEN2 : (liveData->params.speedKmh < 150 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
 
   // Column 3
-  //ATF DONE
+  //ATF
   sprintf(tmpStr1, (liveData->params.coolantTemp2C == -100) ? "--" : "%01.00f", liveData->celsius2temperature(liveData->params.coolantTemp2C));
   drawBigCell(2, 1, 1, 1, tmpStr1, "ATF temp", (liveData->params.coolantTemp2C < 20 ? TFT_MAROON : (liveData->params.coolantTemp2C > 80 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
 
@@ -929,11 +932,11 @@ void Board320_240::drawSceneMain()
   //
   drawBigCell(3, 0, 1, 1, "--", "???", TFT_DEFAULT_BK, TFT_WHITE);
   
-  // Catalyst temp DONE
+  // Catalyst temp
   sprintf(tmpStr1, (liveData->params.catalystTempC == -100) ? "--" : "%01.00f", liveData->celsius2temperature(liveData->params.catalystTempC));
   drawBigCell(3, 1, 1, 1, tmpStr1, "Catalyst", (liveData->params.catalystTempC < 670 ? TFT_DARKGREEN2 : (liveData->params.catalystTempC < 800 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
 
-  // Oil level DONE
+  // Oil level
   sprintf(tmpStr1, (liveData->params.engineOilLevel == -100) ? "--" : "%01.01f", liveData->params.engineOilLevel);
   drawBigCell(3, 2, 1, 1, tmpStr1, "Oil level", (liveData->params.engineOilLevel > 60 ? TFT_DARKGREEN2 : (liveData->params.engineOilLevel > 56 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
 
@@ -3224,7 +3227,8 @@ void Board320_240::redrawScreen()
 
   spr.fillSprite(TFT_BLACK);
 
-  liveData->params.displayScreenAutoMode = SCREEN_AUTO;
+  liveData->params.displayScreenAutoMode = SCREEN_DASH;
+  liveData->params.displayScreen  = SCREEN_DASH;
 
   // Display selected screen
   switch (liveData->params.displayScreen)
