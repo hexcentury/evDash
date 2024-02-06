@@ -440,7 +440,8 @@ void Board320_240::goToSleep()
 
   ++sleepCount;
 
-  enterSleepMode(sleepSeconds);
+  //enterSleepMode(sleepSeconds); e1sm always shutdown TODO fix LifeCycle
+  enterSleepMode(0);
 }
 
 /*
@@ -542,6 +543,7 @@ void Board320_240::afterSleep()
   }
 
   liveData->params.sleepModeQueue = true;
+  liveData->params.getValidResponse = false;
 
   bool firstRun = true;
   while (liveData->commandQueueIndex - 1 > liveData->commandQueueLoopFrom || firstRun)
@@ -551,16 +553,22 @@ void Board320_240::afterSleep()
       firstRun = false;
     }
 
-    if (millis() > 30000)
+    if (millis() > 3000)// it was 30 sec before
     {
-      syslog->println("Time's up (30s timeout)...");
+      syslog->println("Time's up (3s timeout)...");
       goToSleep();
     }
 
     commInterface->mainLoop();
+
+    if (liveData->params.ignitionOn)
+    {
+      syslog->println("Wake up - ignition On!");
+      break;
+    }
   }
 
-  if (liveData->params.getValidResponse)
+  if (liveData->params.ignitionOn)
   {
     syslog->println("Wake up conditions satisfied... Good morning!");
     liveData->params.sleepModeQueue = false;
@@ -568,7 +576,7 @@ void Board320_240::afterSleep()
   }
   else
   {
-    syslog->println("No response from module...");
+    syslog->println("No wake up conditions detected...");
     goToSleep();
   }
 }

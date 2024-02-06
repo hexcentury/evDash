@@ -164,6 +164,18 @@ void CarGeely::parseRowMerged()
       auto par2 = liveData->hexToDecFromResponse(8, 10, 1, false);
       liveData->params.engineOilTempC = 6.112 * par1 + 0.0234 * par2 - 279.416;
     }
+
+    if (liveData->params.speedKmh < 1 && liveData->params.motorRpm < 0.1)
+    {
+      liveData->params.ignitionOn = false;
+    }else{
+      liveData->params.ignitionOn = true;
+    }
+    if (liveData->params.ignitionOn)
+    {
+      liveData->params.lastIgnitionOnTime = liveData->params.currentTime;
+    }
+    liveData->params.getValidResponse = true;
   }
   else if (liveData->responseID == 0x7E9)
   {
@@ -198,11 +210,7 @@ bool CarGeely::commandAllowed()
     {
       return true;
     }
-    if (liveData->commandRequest.equals("ATSH7E4"))
-    {
-      return true;
-    }
-    if (liveData->currentAtshRequest.equals("ATSH7E4") && liveData->commandRequest.equals("220105"))
+    if (liveData->currentAtshRequest.equals("ATSH7DF") && liveData->commandRequest.equals("010C")) // Engine RPM
     {
       return true;
     }
@@ -215,7 +223,7 @@ bool CarGeely::commandAllowed()
     return true;
   }
 
-  // TPMS (once per 30 secs.)
+  /*// TPMS (once per 30 secs.)
   if (liveData->commandRequest.equals("ATSH7A0"))
   {
     return lastAllowTpms + 30 < liveData->params.currentTime;
@@ -277,7 +285,7 @@ bool CarGeely::commandAllowed()
     {
       return false;
     }
-  }
+  }*/
 
   return true;
 }
