@@ -14,8 +14,9 @@
 7E8h        2000  8  D 03h 41h 05h 63h AAh AAh AAh AAh ; temp engine
 7E8h        3000  8  D 03h 41h 05h 73h AAh AAh AAh AAh ; temp engine
 7E8h        3100  8  D 03h 41h 0Ch 00h 01h AAh AAh AAh ; rpm 0
-7E8h        3200  8  D 03h 41h 0Dh 68h AAh AAh AAh AAh  Paused ; speed
+7E8h        3100  8  D 03h 41h 0Ch 13h 13h AAh AAh AAh  Paused ; rpm
 7E8h        3200  8  D 03h 41h 0Dh 00h AAh AAh AAh AAh ; speed 0
+7E8h        3200  8  D 03h 41h 0Dh 68h AAh AAh AAh AAh  Paused ; speed
 7E8h        4000  8  D 03h 41h 2Fh 36h AAh AAh AAh AAh ; fuel
 7E8h        3000  8  D 03h 41h 2Fh B2h AAh AAh AAh AAh ; fuel
 7E8h        3000  8  D 03h 41h 42h 73h 73h AAh AAh AAh ; ecu v
@@ -23,7 +24,6 @@
 7E8h        3000  8  D 04h 41h 3Ch 12h 12h AAh AAh AAh ; catalist
 7E8h        4000  8  D 04h 41h 3Ch 22h 12h AAh AAh AAh ; catalist
 7E8h        1000  8  D 05h 62h 01h 56h 38h 1Fh AAh AAh ; oil temp
-7E8h        3100  8  D 03h 41h 0Ch 13h 13h AAh AAh AAh  Paused ; rpm
 7E8h        1000  8  D 05h 62h 01h 05h 20h 6Eh AAh AAh ; oil level
-7E9h         500  8  D 03h 41h 05h 83h AAh AAh AAh AAh  Paused ; error
 7E9h        1000  8  D 04h 62h 0Ah 12h 57h AAh AAh AAh ; ATF
+7E9h         500  8  D 03h 41h 05h 83h AAh AAh AAh AAh  Paused ; error
