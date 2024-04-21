@@ -66,8 +66,7 @@ void BoardM5stackCore2::initBoard()
   M5.Axp.SetLDOEnable(2, true);
   M5.Axp.SetDCDC3(false);
   M5.Axp.SetLed(false);
-  M5.Axp.SetSpkEnable(false);
-
+  
   M5.Touch.begin();
   M5.Rtc.begin();
   // M5.IMU.Init(); // Gyro
@@ -75,8 +74,9 @@ void BoardM5stackCore2::initBoard()
 
   // TONE
   //M5.Spk.begin();
-  //M5.Spk.InitI2SSpeakOrMic(MODE_MIC);
+  //M5.Spk.DingDong();
   //M5.Axp.SetSpkEnable(true);
+  //M5.Axp.SetSpkEnable(false);
 
   Board320_240::initBoard();
 }

@@ -30,3 +30,8 @@ https://www.drive2.ru/l/491325568038470267/
 ====
 wifiSsid=DarkSide
 wifiPassword=88889999
+ 
+===== Arduino 
+https://docs.m5stack.com/en/arduino/arduino_ide
+https://docs.m5stack.com/en/arduino/arduino_board
+https://docs.m5stack.com/en/arduino/arduino_library
