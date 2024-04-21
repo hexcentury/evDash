@@ -282,6 +282,7 @@ void Board320_240::otaUpdate()
   WiFiClientSecure client;
   client.setTimeout(20000);
   client.setCACert(root_cert);
+  client.setInsecure();
 
   int contentLength = 0;
 
