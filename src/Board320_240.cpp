@@ -8,6 +8,7 @@
 #include "config.h"
 #include "BoardInterface.h"
 #include "Board320_240.h"
+#include "m5sound.h"
 #include <time.h>
 #include <ArduinoJson.h>
 
@@ -232,8 +233,9 @@ void Board320_240::otaUpdate()
 
   printHeapMemory();
 
-  String url = "https://raw.githubusercontent.com/nickn17/evDash/master/dist/m5stack-core2/evDash.ino.bin";
-  url = "https://raw.githubusercontent.com/nickn17/evDash/master/dist/ttgo-t4-v13/evDash.ino.bin";
+  //String url = "https://raw.githubusercontent.com/nickn17/evDash/master/dist/m5stack-core2/evDash.ino.bin";
+  //String url = "https://raw.githubusercontent.com/nickn17/evDash/master/dist/ttgo-t4-v13/evDash.ino.bin";
+  String url = "https://raw.githubusercontent.com/hexcentury/evDash/master/dist/m5stack-core2/evDash.ino.bin";
 
   if (!WiFi.isConnected())
   {
@@ -909,13 +911,13 @@ void Board320_240::drawSceneMain()
   drawBigCell(0, 2, 1, 1, tmpStr1, "Fuel in", (liveData->params.fuelLevelIn > 15 ? TFT_DARKGREEN2 : (liveData->params.fuelLevelIn > 10 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
 
   // RPM
-  sprintf(tmpStr1, (liveData->params.motorRpm == -1) ? "--" : "%01.01f", liveData->params.motorRpm);
+  sprintf(tmpStr1, (liveData->params.motorRpm == -1) ? "--" : "%01.02f", liveData->params.motorRpm);
   drawBigCell(0, 3, 1, 1, tmpStr1, "RPM", (liveData->params.motorRpm < 4 ? TFT_DARKGREEN2 : (liveData->params.motorRpm < 5 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
 
   // Column 2
   //Oil temp
-  sprintf(tmpStr1, (liveData->params.engineOilTempC == -100) ? "--" : "%01.01f", liveData->celsius2temperature(liveData->params.engineOilTempC));
-  drawBigCell(1, 1, 1, 1, tmpStr1, "Oil temp", (liveData->params.engineOilTempC < 20 ? TFT_MAROON : (liveData->params.engineOilTempC > 110 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
+  sprintf(tmpStr1, (liveData->params.engineOilTempC == -100) ? "--" : "%01.00f", liveData->celsius2temperature(liveData->params.engineOilTempC));
+  drawBigCell(1, 1, 1, 1, tmpStr1, "Oil temp", (liveData->params.engineOilTempC < 20 ? TFT_MAROON : (liveData->params.engineOilTempC > 100 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
 
   // Fuel out
   sprintf(tmpStr1, (liveData->params.fuelLevelOut == -100) ? "--" : "%01.01f", liveData->params.fuelLevelOut);
@@ -926,9 +928,9 @@ void Board320_240::drawSceneMain()
   drawBigCell(1, 3, 1, 1, tmpStr1, "Speed", (liveData->params.speedKmh < 120 ? TFT_DARKGREEN2 : (liveData->params.speedKmh < 150 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
 
   // Column 3
-  //ATF
+  //ATF temp
   sprintf(tmpStr1, (liveData->params.coolantTemp2C == -100) ? "--" : "%01.00f", liveData->celsius2temperature(liveData->params.coolantTemp2C));
-  drawBigCell(2, 1, 1, 1, tmpStr1, "ATF temp", (liveData->params.coolantTemp2C < 20 ? TFT_MAROON : (liveData->params.coolantTemp2C > 80 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
+  drawBigCell(2, 1, 1, 1, tmpStr1, "ATF temp", (liveData->params.coolantTemp2C < 20 ? TFT_MAROON : (liveData->params.coolantTemp2C > 100 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
 
   sprintf(tmpStr1, (liveData->params.fuelLevelPercent == -100) ? "--" : "%01.00f%%", liveData->params.fuelLevelPercent * 100);
   drawBigCell(2, 2, 1, 1, tmpStr1, "Fuel %", TFT_DARKGREEN2, TFT_WHITE);
@@ -941,12 +943,30 @@ void Board320_240::drawSceneMain()
   drawBigCell(3, 0, 1, 1, "--", "???", TFT_DEFAULT_BK, TFT_WHITE);
   
   // Catalyst temp
+  static int catalistWarn = 0;
   sprintf(tmpStr1, (liveData->params.catalystTempC == -100) ? "--" : "%01.00f", liveData->celsius2temperature(liveData->params.catalystTempC));
-  drawBigCell(3, 1, 1, 1, tmpStr1, "Catalyst", (liveData->params.catalystTempC < 670 ? TFT_DARKGREEN2 : (liveData->params.catalystTempC < 800 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
+  if (liveData->params.speedKmh >=0 && liveData->params.speedKmh <=5 && liveData->params.catalystTempC >= 680)
+  {
+    if (catalistWarn == 0) // play once
+    {
+      //playWarn();
+    } 
+    if (catalistWarn == 0 || catalistWarn == 2)
+    {
+      catalistWarn = 1;
+    }else if (catalistWarn == 1)
+    {
+      catalistWarn = 2;
+    }
+    drawBigCell(3, 1, 1, 1, tmpStr1, "Catalyst", (catalistWarn == 1 ? TFT_MAROON : TFT_RED), TFT_WHITE);
+  }else{
+    catalistWarn = 0;
+    drawBigCell(3, 1, 1, 1, tmpStr1, "Catalyst", (liveData->params.catalystTempC < 680 ? TFT_DARKGREEN2 : (liveData->params.catalystTempC < 800 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
+  }
 
   // Oil level
   sprintf(tmpStr1, (liveData->params.engineOilLevel == -100) ? "--" : "%01.01f", liveData->params.engineOilLevel);
-  drawBigCell(3, 2, 1, 1, tmpStr1, "Oil level", (liveData->params.engineOilLevel > 60 ? TFT_DARKGREEN2 : (liveData->params.engineOilLevel > 56 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
+  drawBigCell(3, 2, 1, 1, tmpStr1, "Oil level", (liveData->params.engineOilLevel > 50 ? TFT_DARKGREEN2 : (liveData->params.engineOilLevel > 40 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
 
   //
   drawBigCell(3, 3, 1, 1, "--", "???", TFT_DEFAULT_BK, TFT_WHITE);

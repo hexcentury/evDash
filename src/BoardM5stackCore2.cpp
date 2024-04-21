@@ -75,6 +75,8 @@ void BoardM5stackCore2::initBoard()
 
   // TONE
   //M5.Spk.begin();
+  //M5.Spk.InitI2SSpeakOrMic(MODE_MIC);
+  //M5.Axp.SetSpkEnable(true);
 
   Board320_240::initBoard();
 }
