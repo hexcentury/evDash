@@ -141,6 +141,10 @@ void LiveData::initParams()
   params.fuelLevelOut = -100;
   params.fuelLevelPercent = -100;
 
+  params.engineTorque = -100;
+  params.throttlePos = -100;
+  params.fuelRate = -100;
+
   params.bmsUnknownTempA = -100;
   params.bmsUnknownTempB = -100;
   params.bmsUnknownTempC = -100;

@@ -226,6 +226,10 @@ typedef struct
   float auxTemperature;
   int8_t batteryManagementMode;
 
+  float engineTorque;
+  float throttlePos;
+  float fuelRate;
+
   // MCU
   float inverterTempC;
   float motorTempC;

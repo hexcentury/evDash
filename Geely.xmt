@@ -1,5 +1,5 @@
-; C:\Users\anzhe\Documents\IVAN_DO_NOT_DEL\evDash\Geely.xmt
-;   CAN messages saved by PCAN-View v5.2.0.926
+; C:\Users\ivan.y.smirnov\Documents\Private\m5stack\evDash\Geely.xmt
+;   CAN messages saved by PCAN-View v5.1.0.887
 ;
 ; Columns descriptions:
 ; ~~~~~~~~~~~~~~~~~~~~~
@@ -11,19 +11,29 @@
 ; |            |  |  |  |
 300h           1  8  D 55h 55h 55h 55h 55h 55h 55h 55h  Paused ; 300
 300h           2  8  D 55h 55h 55h 55h 55h 55h 55h 55h  Paused ; 300
-7E8h        2000  8  D 03h 41h 05h 63h AAh AAh AAh AAh ; temp engine
-7E8h        3000  8  D 03h 41h 05h 73h AAh AAh AAh AAh ; temp engine
-7E8h        3100  8  D 03h 41h 0Ch 00h 01h AAh AAh AAh ; rpm 0
+7A0h           0  8  D 03h 22h C0h 0Bh 00h 00h 00h 00h ; test
+7DFh           0  8  D 02h 01h 43h 00h 00h 00h 00h 00h ; Absolute load value
+7DFh           0  8  D 02h 01h 11h 00h 00h 00h 00h 00h ; Throttle position
+7DFh           0  8  D 03h 22h C0h 02h 00h 00h 00h 00h ; test
+7DFh           0  8  D 02h 01h 62h 00h 00h 00h 00h 00h ; torque
+7DFh           0  8  D 02h 01h 9Dh 00h 00h 00h 00h 00h ; fuel rate
+7DFh           0  8  D 02h 01h 1Fh 00h 00h 00h 00h 00h ; Run time since engine start
+7DFh           0  8  D 03h 22h C0h 0Bh 00h 00h 00h 00h ; test
+7E4h           0  8  D 03h 22h 01h 01h 00h 00h 00h 00h ; test
+7E8h        2000  8  D 03h 41h 05h 63h AAh AAh AAh AAh  Paused ; temp engine
+7E8h        3000  8  D 03h 41h 05h 73h AAh AAh AAh AAh  Paused ; temp engine
+7E8h        3100  8  D 03h 41h 0Ch 00h 01h AAh AAh AAh  Paused ; rpm 0
 7E8h        3100  8  D 03h 41h 0Ch 13h 13h AAh AAh AAh  Paused ; rpm
-7E8h        3200  8  D 03h 41h 0Dh 00h AAh AAh AAh AAh ; speed 0
+7E8h        3200  8  D 03h 41h 0Dh 00h AAh AAh AAh AAh  Paused ; speed 0
+7E8h        3200  8  D 03h 41h 0Dh 02h AAh AAh AAh AAh  Paused ; speed 2
 7E8h        3200  8  D 03h 41h 0Dh 68h AAh AAh AAh AAh  Paused ; speed
-7E8h        4000  8  D 03h 41h 2Fh 36h AAh AAh AAh AAh ; fuel
-7E8h        3000  8  D 03h 41h 2Fh B2h AAh AAh AAh AAh ; fuel
-7E8h        3000  8  D 03h 41h 42h 73h 73h AAh AAh AAh ; ecu v
-7E8h        4000  8  D 03h 41h 42h 35h 73h AAh AAh AAh ; ecu v
-7E8h        3000  8  D 04h 41h 3Ch 12h 12h AAh AAh AAh ; catalist
-7E8h        4000  8  D 04h 41h 3Ch 22h 12h AAh AAh AAh ; catalist
-7E8h        1000  8  D 05h 62h 01h 56h 38h 1Fh AAh AAh ; oil temp
-7E8h        1000  8  D 05h 62h 01h 05h 20h 6Eh AAh AAh ; oil level
-7E9h        1000  8  D 04h 62h 0Ah 12h 57h AAh AAh AAh ; ATF
+7E8h        4000  8  D 03h 41h 2Fh 36h AAh AAh AAh AAh  Paused ; fuel
+7E8h        3000  8  D 03h 41h 2Fh B2h AAh AAh AAh AAh  Paused ; fuel
+7E8h        4000  8  D 03h 41h 42h 35h 73h AAh AAh AAh  Paused ; ecu v
+7E8h        3000  8  D 03h 41h 42h 73h 73h AAh AAh AAh  Paused ; ecu v
+7E8h        3000  8  D 04h 41h 3Ch 12h 12h AAh AAh AAh  Paused ; catalist
+7E8h        4000  8  D 04h 41h 3Ch 22h 12h AAh AAh AAh  Paused ; catalist
+7E8h        1000  8  D 05h 62h 01h 05h 20h 6Eh AAh AAh  Paused ; oil level
+7E8h        1000  8  D 05h 62h 01h 56h 38h 1Fh AAh AAh  Paused ; oil temp
 7E9h         500  8  D 03h 41h 05h 83h AAh AAh AAh AAh  Paused ; error
+7E9h        1000  8  D 04h 62h 0Ah 12h 57h AAh AAh AAh  Paused ; ATF

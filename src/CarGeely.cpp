@@ -61,6 +61,9 @@ void CarGeely::activateCommandQueue()
       "012F", // Fuel level %
       "013C", // Catalist temp
       "0142", // Control module voltage
+      "0162", // Actual engine torgue %
+      "019D", // Engine Fuel Rate
+      "0111", // Throttle position
 
       // Vendor Engine ECU
       "ATSH7E0",
@@ -73,6 +76,10 @@ void CarGeely::activateCommandQueue()
 
       //TPMS
       // https://www.drive2.ru/l/620211970313861158/
+      // https://nethelpforums.net/viewtopic.php?t=1199
+      // https://github.com/plord12/autopi-tools/blob/master/my_scan.py
+      // https://www.drive2.ru/l/532014370213855978/
+      // https://www.mykiasoulev.com/threads/setting-up-torque-to-show-bms-data.471/page-5#post-3887 
       // TPMS 7A0 22C00B
   };
 
@@ -126,6 +133,25 @@ void CarGeely::parseRowMerged()
       //41 0D 12 AA AA AA AA
       auto par1 = liveData->hexToDecFromResponse(4, 6, 1, false);
       liveData->params.speedKmh = par1;
+    }
+    else if (liveData->responseRowMerged.startsWith("4162"))
+    {
+      //41627DAAAAAAAA Engine torque
+      auto par1 = liveData->hexToDecFromResponse(4, 6, 1, false);
+      liveData->params.engineTorque = par1 - 125;
+    }
+    else if (liveData->responseRowMerged.startsWith("4111"))
+    {
+      //41117DAAAAAAAA Throttle position
+      auto par1 = liveData->hexToDecFromResponse(4, 6, 1, false);
+      liveData->params.throttlePos = 100 / 255 * par1;
+    }
+    else if (liveData->responseRowMerged.startsWith("419D"))
+    {
+      //419D005B005BAA - Fuel rate 8F = 143 = 2.86 g/s
+      auto par1 = liveData->hexToDecFromResponse(4, 6, 1, false);
+      auto par2 = liveData->hexToDecFromResponse(6, 8, 1, false);
+      liveData->params.fuelRate = (par1 * 16 + par2) * 2 / 100;
     }
     else if (liveData->responseRowMerged.startsWith("412F"))
     {
