@@ -144,7 +144,7 @@ void CarGeely::parseRowMerged()
     {
       //41117DAAAAAAAA Throttle position
       auto par1 = liveData->hexToDecFromResponse(4, 6, 1, false);
-      liveData->params.throttlePos = 100 / 255 * par1;
+      liveData->params.throttlePos = par1 * 100 / 255;
     }
     else if (liveData->responseRowMerged.startsWith("419D"))
     {

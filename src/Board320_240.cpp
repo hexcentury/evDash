@@ -938,12 +938,12 @@ void Board320_240::drawSceneMain()
 
   // Throttle position % 
   sprintf(tmpStr1, (liveData->params.throttlePos == -100) ? "--" : "%01.00f%%", liveData->params.throttlePos);
-  drawBigCell(2, 3, 1, 1, "--", "Throttle %", TFT_DARKGREEN2, TFT_WHITE);
+  drawBigCell(2, 3, 1, 1, tmpStr1, "Throttle %", TFT_DARKGREEN2, TFT_WHITE);
 
   // Column 4
   // Fuel rate
   sprintf(tmpStr1, (liveData->params.fuelRate == -100) ? "--" : "%01.01f", liveData->params.fuelRate);
-  drawBigCell(3, 0, 1, 1, "--", "Fuel rate", TFT_DARKGREEN2, TFT_WHITE);
+  drawBigCell(3, 0, 1, 1, tmpStr1, "Fuel rate", TFT_DARKGREEN2, TFT_WHITE);
   
   // Catalyst temp
   static int catalistWarn = 0;
@@ -974,7 +974,7 @@ void Board320_240::drawSceneMain()
 
   // Engine torque %
   sprintf(tmpStr1, (liveData->params.engineTorque == -100) ? "--" : "%01.00f%%", liveData->params.engineTorque);
-  drawBigCell(3, 3, 1, 1, "--", "Torque %", TFT_DARKGREEN2, TFT_WHITE);
+  drawBigCell(3, 3, 1, 1, tmpStr1, "Torque %", TFT_DARKGREEN2, TFT_WHITE);
 }
 
 /**
