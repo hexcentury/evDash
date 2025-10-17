@@ -933,7 +933,7 @@ void Board320_240::drawSceneMain()
   //drawBigCell(1, 3, 1, 1, tmpStr1, "Angle ign", (liveData->params.timingAdvance < 5 ? TFT_RED : (liveData->params.timingAdvance > 25 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
   if (liveData->params.motorRpm < 10000)
   {
-    drawBigCell(1, 3, 1, 1, tmpStr1, "Angle ign", (liveData->params.timingAdvance < 5 ? TFT_RED : (liveData->params.timingAdvance > 25 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
+    drawBigCell(1, 3, 1, 1, tmpStr1, "Angle ign", (liveData->params.timingAdvance < 5 ? TFT_RED : (liveData->params.timingAdvance > 55 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
   }else{
     auto angle = -6.51 + 0.407 * sqrt(liveData->params.motorRpm * 1000); 
     auto mod = abs(angle - liveData->params.timingAdvance);
