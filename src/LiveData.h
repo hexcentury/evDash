@@ -229,6 +229,7 @@ typedef struct
   float engineTorque;
   float throttlePos;
   float fuelRate;
+  float timingAdvance;
 
   // MCU
   float inverterTempC;

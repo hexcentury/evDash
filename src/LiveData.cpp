@@ -144,6 +144,7 @@ void LiveData::initParams()
   params.engineTorque = -100;
   params.throttlePos = -100;
   params.fuelRate = -100;
+  params.timingAdvance = -100;
 
   params.bmsUnknownTempA = -100;
   params.bmsUnknownTempB = -100;

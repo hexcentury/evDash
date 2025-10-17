@@ -925,8 +925,20 @@ void Board320_240::drawSceneMain()
   drawBigCell(1, 2, 1, 1, tmpStr1, "Fuel out", TFT_DARKGREEN2, TFT_WHITE);
   
   // Speed
-  sprintf(tmpStr1, (liveData->params.speedKmh == -1) ? "--" : "%01.00f", liveData->params.speedKmh);
-  drawBigCell(1, 3, 1, 1, tmpStr1, "Speed", (liveData->params.speedKmh < 120 ? TFT_DARKGREEN2 : (liveData->params.speedKmh < 150 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
+  //sprintf(tmpStr1, (liveData->params.speedKmh == -1) ? "--" : "%01.00f", liveData->params.speedKmh);
+  //drawBigCell(1, 3, 1, 1, tmpStr1, "Speed", (liveData->params.speedKmh < 120 ? TFT_DARKGREEN2 : (liveData->params.speedKmh < 150 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
+
+  // Угол опережения зажигания (Timing advance)
+  sprintf(tmpStr1, (liveData->params.timingAdvance == -100) ? "--" : "%01.00f%%", liveData->params.timingAdvance);
+  //drawBigCell(1, 3, 1, 1, tmpStr1, "Angle ign", (liveData->params.timingAdvance < 5 ? TFT_RED : (liveData->params.timingAdvance > 25 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
+  if (liveData->params.motorRpm < 10000)
+  {
+    drawBigCell(1, 3, 1, 1, tmpStr1, "Angle ign", (liveData->params.timingAdvance < 5 ? TFT_RED : (liveData->params.timingAdvance > 25 ? TFT_RED : TFT_DARKGREEN2)), TFT_WHITE);
+  }else{
+    auto angle = -6.51 + 0.407 * sqrt(liveData->params.motorRpm * 1000); 
+    auto mod = abs(angle - liveData->params.timingAdvance);
+    drawBigCell(1, 3, 1, 1, tmpStr1, "Angle ign", (mod < 2 ? TFT_DARKGREEN2 : (mod < 4 ? TFT_MAROON : TFT_RED)), TFT_WHITE);
+  }
 
   // Column 3
   // ATF temp

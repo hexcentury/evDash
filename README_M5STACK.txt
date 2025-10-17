@@ -27,6 +27,14 @@ https://ru.wikipedia.org/wiki/OBD-II_PIDs
 
 от 5 до 25 градусов
 
+При n = 800, α ≈ 12°
+При n = 1600, α ≈ 20°
+α(n) ≈ -7.3 + 0.683 * √n
+
+Для ваших новых условий (n=800, α=5 и n=6000, α=25) подходят обе функции:
+α(n) ≈ -61.35 + 9.93 · ln(n) 
+α(n) ≈ -6.51 + 0.407 · √n 
+
 http://www.dyr4ik.ru/forum/viewtopic.php?t=27950&start=0
 https://rallysale.ru/800/600/http/carnote.su/Basic/Book1/image/379-380.jpg
 https://rallysale.ru/800/600/http/img-fotki.yandex.ru/get/9311/22857638.1/0_c1938_d7eeac5f_XL.bmp

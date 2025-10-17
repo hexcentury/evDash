@@ -64,6 +64,7 @@ void CarGeely::activateCommandQueue()
       "0162", // Actual engine torgue %
       "019D", // Engine Fuel Rate
       "0111", // Throttle position
+      "010E", // Timing advance (УЗО)
 
       // Vendor Engine ECU
       "ATSH7E0",
@@ -133,6 +134,12 @@ void CarGeely::parseRowMerged()
       //41 0D 12 AA AA AA AA
       auto par1 = liveData->hexToDecFromResponse(4, 6, 1, false);
       liveData->params.speedKmh = par1;
+    }
+    else if (liveData->responseRowMerged.startsWith("410E"))
+    {
+      //41 0E 12 AA AA AA AA
+      auto par1 = liveData->hexToDecFromResponse(4, 6, 1, false);
+      liveData->params.timingAdvance = par1/2 - 64;
     }
     else if (liveData->responseRowMerged.startsWith("4162"))
     {
