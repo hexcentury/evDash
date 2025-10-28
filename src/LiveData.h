@@ -230,6 +230,8 @@ typedef struct
   float throttlePos;
   float fuelRate;
   float timingAdvance;
+  uint16_t misfireCylinder[4];
+  uint16_t misfireRate;
 
   // MCU
   float inverterTempC;

@@ -70,6 +70,11 @@ void CarGeely::activateCommandQueue()
       "ATSH7E0",
       "220156", // Engine oil temp
       "220105", // Engine oil level mm
+      "220180", // misfire 1 cyl
+      "220181", // misfire 2 cyl
+      "220182", // misfire 3 cyl
+      "220183", // misfire 4 cyl
+      "22017F", // misfire rate
 
       // Vendor AT ECU
       "ATSH7E1",
@@ -196,6 +201,41 @@ void CarGeely::parseRowMerged()
       auto par1 = liveData->hexToDecFromResponse(6, 8, 1, false);
       auto par2 = liveData->hexToDecFromResponse(8, 10, 1, false);
       liveData->params.engineOilTempC = 6.112 * par1 + 0.0234 * par2 - 279.416;
+    }
+    else if (liveData->responseRowMerged.startsWith("620180"))
+    {
+      //62 01 8X XX XX AA AA
+      auto par1 = liveData->hexToDecFromResponse(6, 8, 1, false);
+      auto par2 = liveData->hexToDecFromResponse(8, 10, 1, false);
+      liveData->params.misfireCylinder[0] = 256 * par1 + par2;
+    }
+    else if (liveData->responseRowMerged.startsWith("620181"))
+    {
+      //62 01 8X XX XX AA AA
+      auto par1 = liveData->hexToDecFromResponse(6, 8, 1, false);
+      auto par2 = liveData->hexToDecFromResponse(8, 10, 1, false);
+      liveData->params.misfireCylinder[1] = 256 * par1 + par2;
+    }
+    else if (liveData->responseRowMerged.startsWith("620182"))
+    {
+      //62 01 8X XX XX AA AA
+      auto par1 = liveData->hexToDecFromResponse(6, 8, 1, false);
+      auto par2 = liveData->hexToDecFromResponse(8, 10, 1, false);
+      liveData->params.misfireCylinder[2] = 256 * par1 + par2;
+    }
+    else if (liveData->responseRowMerged.startsWith("620183"))
+    {
+      //62 01 8X XX XX AA AA
+      auto par1 = liveData->hexToDecFromResponse(6, 8, 1, false);
+      auto par2 = liveData->hexToDecFromResponse(8, 10, 1, false);
+      liveData->params.misfireCylinder[3] = 256 * par1 + par2;
+    }
+    else if (liveData->responseRowMerged.startsWith("62017F"))
+    {
+      //62 01 7F XX XX AA AA
+      auto par1 = liveData->hexToDecFromResponse(6, 8, 1, false);
+      auto par2 = liveData->hexToDecFromResponse(8, 10, 1, false);
+      liveData->params.misfireRate = 256 * par1 + par2;
     }
 
     if (liveData->params.speedKmh < 1 && liveData->params.motorRpm < 0.1)

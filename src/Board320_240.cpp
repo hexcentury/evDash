@@ -855,6 +855,7 @@ void Board320_240::drawSceneMain()
     strcpy(pressureStr, "psi");
   if (liveData->settings.temperatureUnit != 'c')
     strcpy(temperatureStr, "F");
+  /*
   if (liveData->params.tireFrontLeftPressureBar == -1)
   {
     sprintf(tmpStr1, "n/a %s", pressureStr);
@@ -870,32 +871,15 @@ void Board320_240::drawSceneMain()
     sprintf(tmpStr4, "%02.00f%s %01.01f%s", liveData->celsius2temperature(liveData->params.tireRearRightTempC), temperatureStr, liveData->bar2pressure(liveData->params.tireRearRightPressureBar), pressureStr);
   }
   showTires(1, 0, 2, 1, tmpStr1, tmpStr2, tmpStr3, tmpStr4, TFT_BLACK);
+  */
 
-  // Added later - kwh total in tires box
-  // TODO: refactoring
-  //spr.setTextDatum(TL_DATUM);
-  //spr.setTextColor(TFT_GREEN);
-  //sprintf(tmpStr1, ((liveData->params.cumulativeEnergyChargedKWh == -1) ? "CEC: n/a" : "C: %01.01f +%01.01fkWh"), liveData->params.cumulativeEnergyChargedKWh, liveData->params.cumulativeEnergyChargedKWh - liveData->params.cumulativeEnergyChargedKWhStart);
-  //spr.drawString(tmpStr1, (1 * 80) + 4, (0 * 60) + 30, 2);
-  //spr.setTextColor(TFT_YELLOW);
-  //sprintf(tmpStr1, ((liveData->params.cumulativeEnergyDischargedKWh == -1) ? "CED: n/a" : "D: %01.01f -%01.01fkWh"), liveData->params.cumulativeEnergyDischargedKWh, liveData->params.cumulativeEnergyDischargedKWh - liveData->params.cumulativeEnergyDischargedKWhStart);
-  //spr.drawString(tmpStr1, (1 * 80) + 4, (0 * 60) + 44, 2);
-
-  // batPowerKwh100 on roads, else batPowerAmp
-  /* if (liveData->params.speedKmh > 20 ||
-      (liveData->params.speedKmh == -1 && liveData->params.speedKmhGPS > 20 && liveData->params.gpsSat >= 4))
-  {
-    sprintf(tmpStr1, (liveData->params.batPowerKwh100 == -1 ? "n/a" : "%01.01f"), liveData->km2distance(liveData->params.batPowerKwh100));
-    drawBigCell(1, 1, 2, 2, tmpStr1, ((liveData->settings.distanceUnit == 'k') ? "POWER KWH/100KM" : "POWER KWH/100MI"), (liveData->params.batPowerKwh100 >= 0 ? TFT_DARKGREEN2 : (liveData->params.batPowerKwh100 < -30.0 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
-  }
-  else
-  {
-    // batPowerAmp on chargers (under 10kmh)
-    sprintf(tmpStr1, (liveData->params.batPowerKw == -1000) ? "---" : "%01.01f", liveData->params.batPowerKw);
-    drawBigCell(1, 1, 2, 2, tmpStr1, "POWER KW", (liveData->params.batPowerKw >= 0 ? TFT_DARKGREEN2 : (liveData->params.batPowerKw <= -30 ? TFT_RED : TFT_DARKRED)), TFT_WHITE);
-  }*/
-
-  //https://www.programiz.com/cpp-programming/library-function/cstdio/sprintf
+  sprintf(tmpStr1, (liveData->params.misfireCylinder[0] == -1) ? "n/a" : "%01.00f%%", liveData->params.misfireCylinder[0]);
+  sprintf(tmpStr2, (liveData->params.misfireCylinder[1] == -1) ? "n/a" : "%01.00f%%", liveData->params.misfireCylinder[1]);
+  sprintf(tmpStr3, (liveData->params.misfireCylinder[2] == -1) ? "n/a" : "%01.00f%%", liveData->params.misfireCylinder[2]);
+  sprintf(tmpStr4, (liveData->params.misfireCylinder[3] == -1) ? "n/a" : "%01.00f%%", liveData->params.misfireCylinder[3]);
+  showTires(1, 0, 2, 1, tmpStr1, tmpStr2, tmpStr3, tmpStr4, TFT_BLACK);
+    
+    //https://www.programiz.com/cpp-programming/library-function/cstdio/sprintf
   //%[flags][width][.precision][length]specifier
 
   // Column 1

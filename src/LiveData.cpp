@@ -146,6 +146,12 @@ void LiveData::initParams()
   params.fuelRate = -100;
   params.timingAdvance = -100;
 
+  params.misfireCylinder[0] = -1;
+  params.misfireCylinder[1] = -1;
+  params.misfireCylinder[2] = -1;
+  params.misfireCylinder[3] = -1;
+  params.misfireRate = -1;
+
   params.bmsUnknownTempA = -100;
   params.bmsUnknownTempB = -100;
   params.bmsUnknownTempC = -100;
