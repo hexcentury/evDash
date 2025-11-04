@@ -844,6 +844,34 @@ void Board320_240::showTires(int32_t x, int32_t y, int32_t w, int32_t h, const c
 }
 
 /**
+  * Custom field
+ */
+void Board320_240::show4Custom(int32_t x, int32_t y, int32_t w, int32_t h, const char *topleft, const char *topright, const char *bottomleft, const char *bottomright, uint16_t color)
+{
+  int32_t posx, posy;
+
+  spr.fillRect(x * 80, y * 60, ((w) * 80) - 1, ((h) * 60) - 1, color);
+  spr.drawFastVLine(((x + w) * 80) - 1, ((y) * 60) - 1, h * 60, TFT_BLACK);
+  spr.drawFastHLine(((x) * 80) - 1, ((y + h) * 60) - 1, w * 80, TFT_BLACK);
+
+  spr.setTextDatum(TL_DATUM);
+  spr.setTextColor(TFT_SILVER);
+  spr.setTextSize(1);
+  posx = (x * 80) + 4;
+  posy = (y * 60) + 0;
+  spr.drawString(topleft, posx, posy, 2);
+  posy = (y * 60) + 14;
+  spr.drawString(bottomleft, posx, posy, 2);
+
+  spr.setTextDatum(TR_DATUM);
+  posx = ((x + w) * 80) - 4;
+  posy = (y * 60) + 0;
+  spr.drawString(topright, posx, posy, 2);
+  posy = (y * 60) + 14;
+  spr.drawString(bottomright, posx, posy, 2);
+}
+
+/**
  *  Main screen (Screen 1)
  */
 void Board320_240::drawSceneMain()
@@ -873,11 +901,11 @@ void Board320_240::drawSceneMain()
   showTires(1, 0, 2, 1, tmpStr1, tmpStr2, tmpStr3, tmpStr4, TFT_BLACK);
   */
 
-  sprintf(tmpStr1, (liveData->params.misfireCylinder[0] == -1) ? "n/a" : "%01.00f%%", liveData->params.misfireCylinder[0]);
-  sprintf(tmpStr2, (liveData->params.misfireCylinder[1] == -1) ? "n/a" : "%01.00f%%", liveData->params.misfireCylinder[1]);
-  sprintf(tmpStr3, (liveData->params.misfireCylinder[2] == -1) ? "n/a" : "%01.00f%%", liveData->params.misfireCylinder[2]);
-  sprintf(tmpStr4, (liveData->params.misfireCylinder[3] == -1) ? "n/a" : "%01.00f%%", liveData->params.misfireCylinder[3]);
-  showTires(1, 0, 2, 1, tmpStr1, tmpStr2, tmpStr3, tmpStr4, TFT_BLACK);
+  sprintf(tmpStr1, (liveData->params.misfireCylinder[0] == 65535) ? "n/a" : "%01.1d", liveData->params.misfireCylinder[0]);
+  sprintf(tmpStr2, (liveData->params.misfireCylinder[1] == 65535) ? "n/a" : "%01.1d", liveData->params.misfireCylinder[1]);
+  sprintf(tmpStr3, (liveData->params.misfireCylinder[2] == 65535) ? "n/a" : "%01.1d", liveData->params.misfireCylinder[2]);
+  sprintf(tmpStr4, (liveData->params.misfireCylinder[3] == 65535) ? "n/a" : "%01.1d", liveData->params.misfireCylinder[3]);
+  show4Custom(1, 0, 2, 1, tmpStr1, tmpStr2, tmpStr3, tmpStr4, TFT_DARKGREEN2);
     
     //https://www.programiz.com/cpp-programming/library-function/cstdio/sprintf
   //%[flags][width][.precision][length]specifier
