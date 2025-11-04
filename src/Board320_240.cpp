@@ -856,18 +856,18 @@ void Board320_240::show4Custom(int32_t x, int32_t y, int32_t w, int32_t h, const
 
   spr.setTextDatum(TL_DATUM);
   spr.setTextColor(TFT_SILVER);
-  spr.setTextSize(1);
-  posx = (x * 80) + 4;
+  spr.setTextSize(2);
+  posx = (x * 80) + 10;
   posy = (y * 60) + 0;
   spr.drawString(topleft, posx, posy, 2);
-  posy = (y * 60) + 14;
+  posy = (y * 60) + 30;
   spr.drawString(bottomleft, posx, posy, 2);
 
   spr.setTextDatum(TR_DATUM);
-  posx = ((x + w) * 80) - 4;
+  posx = ((x + w) * 80) - 10;
   posy = (y * 60) + 0;
   spr.drawString(topright, posx, posy, 2);
-  posy = (y * 60) + 14;
+  posy = (y * 60) + 30;
   spr.drawString(bottomright, posx, posy, 2);
 }
 
