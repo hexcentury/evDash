@@ -846,7 +846,7 @@ void Board320_240::showTires(int32_t x, int32_t y, int32_t w, int32_t h, const c
 /**
   * Custom field
  */
-void Board320_240::show4Custom(int32_t x, int32_t y, int32_t w, int32_t h, const char *topleft, const char *topright, const char *bottomleft, const char *bottomright, uint16_t color)
+void Board320_240::show4Custom(int32_t x, int32_t y, int32_t w, int32_t h, const char *topleft, const char *topright, const char *bottomleft, const char *bottomright, const char *middle, uint16_t color)
 {
   int32_t posx, posy;
 
@@ -854,7 +854,7 @@ void Board320_240::show4Custom(int32_t x, int32_t y, int32_t w, int32_t h, const
   spr.drawFastVLine(((x + w) * 80) - 1, ((y) * 60) - 1, h * 60, TFT_BLACK);
   spr.drawFastHLine(((x) * 80) - 1, ((y + h) * 60) - 1, w * 80, TFT_BLACK);
 
-  spr.setTextDatum(TL_DATUM);
+  /*spr.setTextDatum(TL_DATUM);
   spr.setTextColor(TFT_SILVER);
   spr.setTextSize(2);
   posx = (x * 80) + 10;
@@ -868,7 +868,33 @@ void Board320_240::show4Custom(int32_t x, int32_t y, int32_t w, int32_t h, const
   posy = (y * 60) + 0;
   spr.drawString(topright, posx, posy, 2);
   posy = (y * 60) + 30;
-  spr.drawString(bottomright, posx, posy, 2);
+  spr.drawString(bottomright, posx, posy, 2);*/
+
+  spr.setTextSize(1);
+  spr.setTextColor(TFT_WHITE);
+  spr.setFreeFont(&Orbitron_Light_24);
+
+  spr.setTextDatum(TL_DATUM);
+  posx = (x * 80) + 10;
+  posy = (y * 60) + 0;
+  spr.drawString(topleft, posx, posy, GFXFF);
+  posy = (y * 60) + 30;
+  spr.drawString(bottomleft, posx, posy, GFXFF);
+
+  spr.setTextDatum(TR_DATUM);
+  posx = ((x + w) * 80) - 10;
+  posy = (y * 60) + 0;
+  spr.drawString(topright, posx, posy, GFXFF);
+  posy = (y * 60) + 30;
+  spr.drawString(bottomright, posx, posy, GFXFF);
+
+  if (strlen(middle) > 0)
+  {
+    spr.setTextDatum(MC_DATUM);
+    posx = ((x + w / 2) * 80) + 0;
+    posy = (y * 60) + 30;
+    spr.drawString(middle, posx, posy, GFXFF);
+  }
 }
 
 /**
@@ -905,9 +931,10 @@ void Board320_240::drawSceneMain()
   sprintf(tmpStr2, (liveData->params.misfireCylinder[1] == 65535) ? "n/a" : "%01.1d", liveData->params.misfireCylinder[1]);
   sprintf(tmpStr3, (liveData->params.misfireCylinder[2] == 65535) ? "n/a" : "%01.1d", liveData->params.misfireCylinder[2]);
   sprintf(tmpStr4, (liveData->params.misfireCylinder[3] == 65535) ? "n/a" : "%01.1d", liveData->params.misfireCylinder[3]);
-  show4Custom(1, 0, 2, 1, tmpStr1, tmpStr2, tmpStr3, tmpStr4, TFT_DARKGREEN2);
+  sprintf(tmpStr5, (liveData->params.misfireRate == 65535) ? "n/a" : "%01.1d", liveData->params.misfireRate);
+  show4Custom(1, 0, 2, 1, tmpStr1, tmpStr2, tmpStr3, tmpStr4, tmpStr5, (liveData->params.misfireRate > 20 ? TFT_RED : (liveData->params.misfireRate > 10 ? TFT_MAROON : TFT_DARKGREEN2)));
     
-    //https://www.programiz.com/cpp-programming/library-function/cstdio/sprintf
+  //https://www.programiz.com/cpp-programming/library-function/cstdio/sprintf
   //%[flags][width][.precision][length]specifier
 
   // Column 1
