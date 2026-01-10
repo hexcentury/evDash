@@ -926,13 +926,32 @@ void Board320_240::drawSceneMain()
   }
   showTires(1, 0, 2, 1, tmpStr1, tmpStr2, tmpStr3, tmpStr4, TFT_BLACK);
   */
-
+  static time_t refreshMisfireTime = 0;
+  static uint16_t prevMisfireRate = 0;
+  static uint16_t diffMisfireRed_1 = 3; //3 per minute = 180 per hour
+  static uint16_t diffMisfireRed_2 = 6;
+  static uint16_t misfireColor = 0;
+  if (liveData->params.currentTime - refreshMisfireTime > 60)
+  {
+    refreshMisfireTime = liveData->params.currentTime;
+    misfireColor = 0;
+    if (liveData->params.misfireRate - prevMisfireRate >= diffMisfireRed_2)
+    {
+      misfireColor = 2;
+    }
+    else if(liveData->params.misfireRate - prevMisfireRate >= diffMisfireRed_1)
+    {
+      misfireColor = 1;
+    }
+    prevMisfireRate = liveData->params.misfireRate;
+  }
+  
   sprintf(tmpStr1, (liveData->params.misfireCylinder[0] == 65535) ? "n/a" : "%01.1d", liveData->params.misfireCylinder[0]);
   sprintf(tmpStr2, (liveData->params.misfireCylinder[1] == 65535) ? "n/a" : "%01.1d", liveData->params.misfireCylinder[1]);
   sprintf(tmpStr3, (liveData->params.misfireCylinder[2] == 65535) ? "n/a" : "%01.1d", liveData->params.misfireCylinder[2]);
   sprintf(tmpStr4, (liveData->params.misfireCylinder[3] == 65535) ? "n/a" : "%01.1d", liveData->params.misfireCylinder[3]);
   sprintf(tmpStr5, (liveData->params.misfireRate == 65535) ? "n/a" : "%01.1d", liveData->params.misfireRate);
-  show4Custom(1, 0, 2, 1, tmpStr1, tmpStr2, tmpStr3, tmpStr4, tmpStr5, (liveData->params.misfireRate > 20 ? TFT_RED : (liveData->params.misfireRate > 10 ? TFT_MAROON : TFT_DARKGREEN2)));
+  show4Custom(1, 0, 2, 1, tmpStr1, tmpStr2, tmpStr3, tmpStr4, tmpStr5, (misfireColor == 2 ? TFT_RED : (misfireColor == 1 ? TFT_MAROON : TFT_DARKGREEN2)));
     
   //https://www.programiz.com/cpp-programming/library-function/cstdio/sprintf
   //%[flags][width][.precision][length]specifier
